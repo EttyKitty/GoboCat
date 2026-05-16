@@ -37,15 +37,9 @@ internal class DelimitedList
         // Recursively check if we are part of a declaration/assignment tree
         bool isInitialization = IsInInitializationContext(arguments);
 
-        bool forceVerticalLayout = forceBreak || (isStruct && ctx.Options.VerticalStructs && isInitialization);
-
-        if (isArray && ctx.Options.VerticalArrays && isInitialization)
-        {
-            if (arguments.Children.Count > 1)
-            {
-                forceVerticalLayout = true;
-            }
-        }
+        bool forceVerticalLayout = forceBreak
+            || (isStruct && ctx.Options.VerticalStructs && isInitialization)
+            || (isArray && ctx.Options.VerticalArrays && isInitialization && arguments.Children.Count > 1);
 
         if (arguments.Children.Count > 0)
         {
@@ -58,7 +52,6 @@ internal class DelimitedList
                 leadingContents,
                 forceInternalBreaks: forceVerticalLayout
             );
-
 
             LineDoc lineBreak = Doc.SoftLine;
 
@@ -156,10 +149,10 @@ internal class DelimitedList
                 return true;
             }
 
-            if (current is ConditionalExpression 
-                or CallExpression 
-                or BinaryExpression 
-                or ReturnStatement 
+            if (current is ConditionalExpression
+                or CallExpression
+                or BinaryExpression
+                or ReturnStatement
                 or SwitchCase)
             {
                 return false;
