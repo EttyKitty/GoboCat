@@ -1,4 +1,4 @@
-﻿using Gobo.Printer.DocTypes;
+using Gobo.Printer.DocTypes;
 
 namespace Gobo.SyntaxNodes.Gml;
 
@@ -94,5 +94,5 @@ internal sealed class ParenthesizedExpression : GmlSyntaxNode
         return Expression.GetHashCode();
     }
 
-    private static bool ShouldNotBreak(GmlSyntaxNode node) => node is FunctionDeclaration or StructExpression or ConditionalExpression or CallExpression;
+    private static bool ShouldNotBreak(GmlSyntaxNode node) => node is FunctionDeclaration or StructExpression or ConditionalExpression or CallExpression or UnaryExpression;
 }
