@@ -13,3 +13,8 @@ call(
     true,
     false, // comment
 );
+
+call(
+    foo,
+    false // comment
+);

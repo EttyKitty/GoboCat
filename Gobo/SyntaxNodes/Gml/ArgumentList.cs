@@ -60,14 +60,32 @@ internal sealed class ArgumentList : GmlSyntaxNode
         }
         else
         {
-            result = DelimitedList.PrintInBrackets(
-                ctx,
-                "(",
-                this,
-                ")",
-                ",",
-                leadingContents: PrintLeadingComments(ctx)
-            );
+            bool anyChildHasComments = Children.Any(c => c.Comments.Count != 0);
+
+            if (anyChildHasComments)
+            {
+                result = DelimitedList.PrintInBrackets(
+                    ctx,
+                    "(",
+                    this,
+                    ")",
+                    ",",
+                    allowTrailingSeparator: true,
+                    forceBreak: true,
+                    leadingContents: PrintLeadingComments(ctx)
+                );
+            }
+            else
+            {
+                result = DelimitedList.PrintInBrackets(
+                    ctx,
+                    "(",
+                    this,
+                    ")",
+                    ",",
+                    leadingContents: PrintLeadingComments(ctx)
+                );
+            }
         }
 
         var printed = Doc.Concat(result, PrintTrailingComments(ctx));

@@ -4,7 +4,10 @@ call(undefined, foo);
 
 call(/*comment*/);
 
-call(undefined, foo /*comment*/);
+call(
+    undefined,
+    foo /*comment*/,
+);
 
 call();
 
