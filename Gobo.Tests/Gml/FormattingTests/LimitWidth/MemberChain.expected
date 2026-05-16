@@ -6,11 +6,11 @@ longer_identifier.do_something().do_something().do_something();
 
 self.method(
 	some_parameter__________________________________,
-	some_parameter__________________________________
+	some_parameter__________________________________,
 );
 
 self.some_method(
-	some_other_method(parameter__________________________________________________)
+	some_other_method(parameter__________________________________________________),
 );
 
 var super_long_name____________________________________ =
@@ -32,29 +32,29 @@ var some_value = this().should().be().one().line();
 return some_condition
 	? call_method(
 		some_long_parameter____________________________,
-		some_long_parameter____________________________
+		some_long_parameter____________________________,
 	)
 	: something.call_method(
 		some_long_parameter____________________________,
-		some_long_parameter____________________________
+		some_long_parameter____________________________,
 	);
 
 return some_value.call_method(
 	some_long_parameter____________________________,
-	some_long_parameter____________________________
+	some_long_parameter____________________________,
 ).xyz;
 
 var some_variable = some_object.property.call_method(
-	something.some_property == some_other_value___________________________________
+	something.some_property == some_other_value___________________________________,
 );
 
 // This should not indent
 call_method(
 	first_parameter____________________________,
-	second_parameter___________________________
+	second_parameter___________________________,
 ).call_method(
 	first_parameter____________________________,
-	second_parameter___________________________
+	second_parameter___________________________,
 );
 
 call_method() // trailing comment
@@ -67,26 +67,26 @@ call_method()
 // Last two calls should indent
 call_method(
 	first_parameter____________________________,
-	second_parameter___________________________
+	second_parameter___________________________,
 )
 	.call_method(
 		first_parameter____________________________,
-		second_parameter___________________________
+		second_parameter___________________________,
 	)
 	.call_method(
 		first_parameter____________________________,
-		second_parameter___________________________
+		second_parameter___________________________,
 	);
 
 return some_condition(
 	some_long_parameter____________________________,
-	some_long_parameter____________________________
+	some_long_parameter____________________________,
 )
 	/* this comment should indent */
 	// so should this
 	.call_method(
 		some_long_parameter____________________________,
-		some_long_parameter____________________________
+		some_long_parameter____________________________,
 	);
 
 someThing_______________________.Property

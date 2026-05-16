@@ -18,4 +18,11 @@ var array = [
 	item3, // should break
 ];
 
-var accessors = [data_structure[array], data_structure[@ array], data_structure[| list], data_structure[? map], data_structure[# grid], data_structure[$ "struct"]];
+var accessors = [
+	data_structure[array],
+	data_structure[@ array],
+	data_structure[| list],
+	data_structure[? map],
+	data_structure[# grid],
+	data_structure[$ "struct"],
+];

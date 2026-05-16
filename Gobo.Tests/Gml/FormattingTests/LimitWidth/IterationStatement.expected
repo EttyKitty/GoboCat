@@ -30,7 +30,12 @@ while (condition) {
 	return;
 }
 
-while (longStatementName && longerStatementName && evenLongerStatementName && superLongStatementName) {
+while (
+	longStatementName
+	&& longerStatementName
+	&& evenLongerStatementName
+	&& superLongStatementName
+) {
 	return;
 }
 
@@ -40,6 +45,11 @@ do {
 
 do {
 	operation();
-} until (longStatementName && longerStatementName && evenLongerStatementName && superLongStatementName)
+} until (
+	longStatementName
+	&& longerStatementName
+	&& evenLongerStatementName
+	&& superLongStatementName
+)
 
 repeat (3) {}

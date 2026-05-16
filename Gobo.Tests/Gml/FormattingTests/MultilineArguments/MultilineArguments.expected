@@ -1,7 +1,7 @@
 call(
 	dod,
 	bar,
-	foo
+	foo,
 );
 
 call(a);
@@ -14,43 +14,43 @@ call(
 	c,
 	d,
 	e,
-	f
+	f,
 );
 
 call(
 	function() {},
-	function() {}
+	function() {},
 );
 
 nested(
 	call(
 		a,
 		b,
-		c
+		c,
 	),
 	call(
 		d,
 		e,
-		f
-	)
+		f,
+	),
 );
 
 call(
 	,
 	,
-	foo
+	foo,
 );
 
 call(
 	,
-	foo
+	foo,
 );
 
 call(/*comment*/);
 
 call(
 	,
-	foo /*comment*/
+	foo /*comment*/,
 );
 
 call();
@@ -59,7 +59,7 @@ call();
 
 if (call(
 	foo,
-	foo
+	foo,
 )) {
 	foo = foo;
 }
@@ -68,6 +68,6 @@ repeat (obj.foo) {
 	obj.call(
 		"foo",
 		"foo",
-		foo
+		foo,
 	);
 }

@@ -2,12 +2,12 @@ if (long_call([
 	xx + 10,
 	yy + 90 + (20 * i) - 2,
 	xx + long_object.width,
-	yy + 90 + (20 * i) + 18
+	yy + 90 + (20 * i) + 18,
 ])) {}
 
 if (!long_call([
 	el1,
-	el2
+	el2,
 ])) {}
 
 if (
@@ -15,6 +15,23 @@ if (
 	&& foo == 0
 	&& !long_call([
 		long_object,
-		long_object
+		long_object,
 	])
+) {}
+
+if (
+	foo == 0
+	&& !long_call([
+		long_object,
+		long_object,
+	])
+	&& foo == 0
+) {}
+
+if (
+	!long_call([
+		long_object,
+		long_object,
+	])
+	|| long_call(obj_fleet)
 ) {}
