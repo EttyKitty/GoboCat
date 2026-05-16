@@ -32,7 +32,7 @@ internal sealed class ArgumentList : GmlSyntaxNode
 
         if (ctx.Options.MultilineArguments && Children.Count > 1)
         {
-            result = DelimitedList.PrintInBrackets(ctx, "(", this, ")", ",", forceBreak: true);
+            result = DelimitedList.PrintInBrackets(ctx, "(", this, ")", ",", allowTrailingSeparator: true, forceBreak: true);
         }
         else if (ShouldBreakOnLastArgument())
         {
@@ -54,7 +54,7 @@ internal sealed class ArgumentList : GmlSyntaxNode
                 optionA = Doc.Group("(", Doc.Join(separator, allExceptLast), separator, last, ")");
             }
 
-            var optionB = DelimitedList.PrintInBrackets(ctx, "(", this, ")", ",");
+            var optionB = DelimitedList.PrintInBrackets(ctx, "(", this, ")", ",", allowTrailingSeparator: true);
 
             result = Doc.ConditionalGroup(optionA, optionB);
         }
@@ -83,6 +83,7 @@ internal sealed class ArgumentList : GmlSyntaxNode
                     this,
                     ")",
                     ",",
+                    allowTrailingSeparator: true,
                     leadingContents: PrintLeadingComments(ctx)
                 );
             }

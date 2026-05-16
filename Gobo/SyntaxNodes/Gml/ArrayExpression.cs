@@ -1,4 +1,4 @@
-﻿using Gobo.Printer.DocTypes;
+using Gobo.Printer.DocTypes;
 using Gobo.SyntaxNodes.PrintHelpers;
 
 namespace Gobo.SyntaxNodes.Gml;
@@ -15,6 +15,6 @@ internal sealed class ArrayExpression : GmlSyntaxNode
 
     public override Doc PrintNode(PrintContext ctx)
     {
-        return DelimitedList.PrintInBrackets(ctx, "[", this, "]", ",");
+        return DelimitedList.PrintInBrackets(ctx, "[", this, "]", ",", allowTrailingSeparator: true);
     }
 }
