@@ -151,7 +151,8 @@ if (
 	CallMethod(
 		someParameter_____________________________________,
 		someParameter_____________________________________,
-	) || CallMethod(shortValue, "shortValue")
+	)
+	|| CallMethod(shortValue, "shortValue")
 ) {}
 
 if (

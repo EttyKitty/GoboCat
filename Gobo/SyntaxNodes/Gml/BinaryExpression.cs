@@ -1,4 +1,4 @@
-﻿using Gobo.Printer.DocTypes;
+using Gobo.Printer.DocTypes;
 
 namespace Gobo.SyntaxNodes.Gml;
 
@@ -82,6 +82,10 @@ internal sealed class BinaryExpression : GmlSyntaxNode
             && binaryExpression.Left is not BinaryExpression
             && binaryExpression.Right is not BinaryExpression;
 
+        var isInsideControlFlowParens =
+            binaryExpression.Parent is ParenthesizedExpression { IsControlFlowArgument: true }
+            && binaryExpression.Operator is "&&" or "||" or "^^";
+
         if (
             binaryExpression.Left is BinaryExpression leftBinary
             && ShouldFlatten(binaryExpression.Operator, leftBinary.Operator)
@@ -106,7 +110,7 @@ internal sealed class BinaryExpression : GmlSyntaxNode
             )
         );
 
-        parts.Add(shouldGroup ? Doc.Group(right) : right);
+        parts.Add(shouldGroup && !isInsideControlFlowParens ? Doc.Group(right) : right);
 
         return parts;
     }
