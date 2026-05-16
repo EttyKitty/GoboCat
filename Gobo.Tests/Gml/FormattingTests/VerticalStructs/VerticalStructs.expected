@@ -18,3 +18,5 @@ if (!long_call({
 	key1: 5,
 	key2: 10,
 })) {}
+
+var foo = {key1: 5};
