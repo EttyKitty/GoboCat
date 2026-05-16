@@ -5,8 +5,8 @@ call(undefined, foo);
 call(/*comment*/);
 
 call(
-    undefined,
-    foo /*comment*/,
+	undefined,
+	foo /*comment*/,
 );
 
 call();

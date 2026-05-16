@@ -1,3 +1,6 @@
 {
+  "useTabs": true,
+  "verticalStructs": false,
+  "verticalArrays": false,
   "multilineTernary": true
 }

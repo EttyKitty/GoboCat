@@ -1,0 +1,15 @@
+if (long_call(
+	[
+		xx + 10,
+		yy + 90 + (20 * i) - 2,
+		xx + long_object.width,
+		yy + 90 + (20 * i) + 18
+	]
+)) {}
+
+if (!long_call(
+	[
+		el1,
+		el2
+	]
+)) {}
