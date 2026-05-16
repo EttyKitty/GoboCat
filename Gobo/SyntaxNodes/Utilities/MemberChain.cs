@@ -292,7 +292,7 @@ internal static class MemberChain
 
         var firstNode = groups[0][0].Node;
 
-        if (groups[0].Count == 1 && firstNode is Identifier { Name.Length: <= 4 })
+        if (groups[0].Count == 1 && firstNode is Identifier)
         {
             return true;
         }
