@@ -34,12 +34,9 @@ internal class DelimitedList
         bool isStruct = arguments is StructExpression;
         bool isArray = arguments is ArrayExpression;
 
-        // Recursively check if we are part of a declaration/assignment tree
-        bool isInitialization = IsInInitializationContext(arguments);
-
         bool forceVerticalLayout = forceBreak
-            || (isStruct && ctx.Options.VerticalStructs && isInitialization)
-            || (isArray && ctx.Options.VerticalArrays && isInitialization && arguments.Children.Count > 1);
+            || (isStruct && ctx.Options.VerticalStructs)
+            || (isArray && ctx.Options.VerticalArrays && arguments.Children.Count > 1);
 
         if (arguments.Children.Count > 0)
         {
@@ -138,28 +135,5 @@ internal class DelimitedList
         }
 
         return Doc.Concat(parts);
-    }
-    private static bool IsInInitializationContext(GmlSyntaxNode? node)
-    {
-        var current = node?.Parent;
-        while (current != null)
-        {
-            if (current is VariableDeclarator or AssignmentExpression)
-            {
-                return true;
-            }
-
-            if (current is ConditionalExpression
-                or CallExpression
-                or BinaryExpression
-                or ReturnStatement
-                or SwitchCase)
-            {
-                return false;
-            }
-
-            current = current.Parent;
-        }
-        return false;
     }
 }
