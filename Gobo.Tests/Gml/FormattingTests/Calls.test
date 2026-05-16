@@ -1,0 +1,15 @@
+call(,,)
+
+call( , /*comment*/ , )
+
+call(, // surprise! inner comment
+,)
+
+call(
+    foo,
+    obj.key,
+    0, // comment
+    ENUM.ANY,
+    true,
+    false, // comment
+);
