@@ -1,9 +1,9 @@
 {
   "mainAssemblyName": "Gobo.Playground",
   "resources": {
-    "hash": "sha256-Z40xcbviI2JWR3jbY8qYU8s2e4qLN+VvJxZJGFUfB5Y=",
+    "hash": "sha256-JE05ut+clO0dljLpwokJWHOzEeYC/heUTxpgWGnVsS0=",
     "fingerprinting": {
-      "Gobo.Playground.w7np5t1iu3.wasm": "Gobo.Playground.wasm",
+      "Gobo.Playground.zav2c0661n.wasm": "Gobo.Playground.wasm",
       "Microsoft.AspNetCore.Components.Web.9ywlbodhai.wasm": "Microsoft.AspNetCore.Components.Web.wasm",
       "Microsoft.AspNetCore.Components.WebAssembly.8bgf3h7zzy.wasm": "Microsoft.AspNetCore.Components.WebAssembly.wasm",
       "Microsoft.AspNetCore.Components.uc30c34nb3.wasm": "Microsoft.AspNetCore.Components.wasm",
@@ -24,7 +24,7 @@
       "System.ComponentModel.avqctkouua.wasm": "System.ComponentModel.wasm",
       "System.Console.jaj41ufvcv.wasm": "System.Console.wasm",
       "System.IO.Pipelines.wyydp0qg24.wasm": "System.IO.Pipelines.wasm",
-      "System.Linq.3fnyi6vq58.wasm": "System.Linq.wasm",
+      "System.Linq.kppqbwsbtx.wasm": "System.Linq.wasm",
       "System.Memory.ehvcdghta1.wasm": "System.Memory.wasm",
       "System.Net.Http.nij962f8cj.wasm": "System.Net.Http.wasm",
       "System.Net.Primitives.96zxd8c30v.wasm": "System.Net.Primitives.wasm",
@@ -36,8 +36,8 @@
       "System.Text.Encodings.Web.funmbj3tve.wasm": "System.Text.Encodings.Web.wasm",
       "System.Text.Json.zcbgrnwt2x.wasm": "System.Text.Json.wasm",
       "System.Text.RegularExpressions.ivnnkacsm3.wasm": "System.Text.RegularExpressions.wasm",
-      "gobolib.r6yg8k2meu.wasm": "gobolib.wasm",
-      "dotnet.native.pfusfkfqqx.wasm": "dotnet.native.wasm",
+      "gobolib.kxek4jfem8.wasm": "gobolib.wasm",
+      "dotnet.native.xktm48ioxy.wasm": "dotnet.native.wasm",
       "dotnet.native.ol2ce82pp8.js": "dotnet.native.js",
       "dotnet.js": "dotnet.js",
       "dotnet.runtime.dstopyvqzi.js": "dotnet.runtime.js"
@@ -49,10 +49,10 @@
       "dotnet.runtime.dstopyvqzi.js": "sha256-zZ0MGlWZF0pG99PvNYvOdUvox/BZe6pddrswXlZoKyc="
     },
     "wasmNative": {
-      "dotnet.native.pfusfkfqqx.wasm": "sha256-FTjclSVDv2MN59rLY+bKjN4Qwa3pYYzuOR4qbE3doJM="
+      "dotnet.native.xktm48ioxy.wasm": "sha256-v/xFroDLUhuTawlo/bhKkhz5yPBsryDrMulKmW8djto="
     },
     "coreAssembly": {
-      "Gobo.Playground.w7np5t1iu3.wasm": "sha256-zIrgygC9PBNkkdh9TxsvRC71cob850nmdooMcE1dr6w=",
+      "Gobo.Playground.zav2c0661n.wasm": "sha256-+3ZSIBq683o3G7MDjtTxGurbVaG0cP8RqRlAKkvEAxI=",
       "Microsoft.AspNetCore.Components.Web.9ywlbodhai.wasm": "sha256-7wp/nPD1MR2pfYCnDh3kSogXnnLU9wp+F1V4ir6sjxw=",
       "Microsoft.AspNetCore.Components.WebAssembly.8bgf3h7zzy.wasm": "sha256-rAh8nWGBCVWFU1ifzsvsWmL3epaj09/Fd8prA7yhAYQ=",
       "Microsoft.AspNetCore.Components.uc30c34nb3.wasm": "sha256-AnexbclRr7eROKlrA9fPfIPN+3hmRCetl000NcVdH84=",
@@ -73,7 +73,7 @@
       "System.ComponentModel.avqctkouua.wasm": "sha256-+t8P5VwB9QreGtaNHR5OsuxiRQ8ToVQvFiE4CXb2sQE=",
       "System.Console.jaj41ufvcv.wasm": "sha256-VTyAg27O30XFKdddvhyV0cpmwcJ/UmZWb9+bWdJXcS8=",
       "System.IO.Pipelines.wyydp0qg24.wasm": "sha256-uLQX6zngyw2h0uWh7/QaZ2FP6rwAMOsJ9RMn9qNrVQQ=",
-      "System.Linq.3fnyi6vq58.wasm": "sha256-8bovT2JPrfOa1tQ5qqxwqgP/AHkjtrtBiTzlIMt6T58=",
+      "System.Linq.kppqbwsbtx.wasm": "sha256-WBC79XGF4G/N+1pois+hE3RbYveWgdajiyKFIaRf/B0=",
       "System.Memory.ehvcdghta1.wasm": "sha256-nhik8BDgctL0zbIkesuzGlRIqPkb49MKeHLTEkxv3uI=",
       "System.Net.Http.nij962f8cj.wasm": "sha256-D8kBZgc/nuNWrIw3cHwmmpuSZlNYZRBnY/vHEZzxua8=",
       "System.Net.Primitives.96zxd8c30v.wasm": "sha256-rwLaMxric/z6OEdxw2wb0dJ5NLRel/330wGrxGSllmY=",
@@ -85,7 +85,7 @@
       "System.Text.Encodings.Web.funmbj3tve.wasm": "sha256-N6mlP3vuOlRlbb7wXFxNoEYkHYzYL55WYRZF8haFmbI=",
       "System.Text.Json.zcbgrnwt2x.wasm": "sha256-g5TJ/lA0BOoUjlpneA18xNFBLlbYe1YxyZX0NmRNaYM=",
       "System.Text.RegularExpressions.ivnnkacsm3.wasm": "sha256-npQRvW1Klmpyny2Arj4qHxURCxLg6KDL42GFqYFjdxw=",
-      "gobolib.r6yg8k2meu.wasm": "sha256-7XakFi5GOumOyBmvWLiK8YUVeE51IqrXYNTrhtEKFVU="
+      "gobolib.kxek4jfem8.wasm": "sha256-aFcx6e4Y58W0ZVzOEa/wBYm5RQpxgHauWGX48x3jaEk="
     },
     "assembly": {}
   },
