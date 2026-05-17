@@ -71,19 +71,19 @@
         <div class="form-check" title="If checked, structs will always be formatted vertically.">
             <input type="checkbox"
                 class="form-check-input"
-                id="verticalStructs"
-                @bind="_formatOptions.VerticalStructs"
+                id="multilineStructs"
+                @bind="_formatOptions.MultilineStructs"
                 @bind:after="RequestUpdate" />
-            <label for="verticalStructs" class="text-light form-check-label">Vertical Structs</label>
+            <label for="multilineStructs" class="text-light form-check-label">Vertical Structs</label>
         </div>
 
         <div class="form-check" title="If checked, arrays will always be formatted vertically.">
             <input type="checkbox"
                 class="form-check-input"
-                id="verticalArrays"
-                @bind="_formatOptions.VerticalArrays"
+                id="multilineArrays"
+                @bind="_formatOptions.MultilineArrays"
                 @bind:after="RequestUpdate" />
-            <label for="verticalArrays" class="text-light form-check-label">Vertical Arrays</label>
+            <label for="multilineArrays" class="text-light form-check-label">Vertical Arrays</label>
         </div>
 
         <div class="form-check" title="If checked, enforces newlines between the operands of a ternary expression.">

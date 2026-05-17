@@ -7,3 +7,13 @@ if (foo == 0 && foo == 0 && !long_call([long_object, long_object])){}
 if (foo == 0 && !long_call([long_object, long_object]) && foo == 0){}
 
 if (!long_call([long_object,long_object,])||long_call(obj_fleet)){}
+
+var struct = {
+    foo: bar,
+    // leading
+    " baz ": qux, // trailing
+    noone: function() {return {}},
+    nested: {
+        constructor: [[5,2,4]]
+    }
+}

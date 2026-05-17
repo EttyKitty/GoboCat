@@ -15,8 +15,8 @@ public record FormatOptions
     public int TabWidth { get; set; } = 4;
     public int MaxLineWidth { get; set; } = 90;
     public bool FlatExpressions { get; set; } = false;
-    public bool VerticalStructs { get; set; } = true;
-    public bool VerticalArrays { get; set; } = true;
+    public bool MultilineStructs { get; set; } = true;
+    public bool MultilineArrays { get; set; } = true;
     public bool MultilineTernary { get; set; } = false;
     public bool LimitWidth { get; set; } = false;
     public bool BlankLineAfterBlocks { get; set; } = false;

@@ -35,8 +35,8 @@ internal class DelimitedList
         bool isArray = arguments is ArrayExpression;
 
         bool forceVerticalLayout = forceBreak
-            || (isStruct && ctx.Options.VerticalStructs)
-            || (isArray && ctx.Options.VerticalArrays && arguments.Children.Count > 1);
+            || (isStruct && ctx.Options.MultilineStructs)
+            || (isArray && ctx.Options.MultilineArrays && arguments.Children.Count > 1);
 
         if (arguments.Children.Count > 0)
         {

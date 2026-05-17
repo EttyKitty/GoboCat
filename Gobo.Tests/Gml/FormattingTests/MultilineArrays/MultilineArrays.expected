@@ -45,3 +45,21 @@ if (
 	)
 	|| long_call(obj_fleet)
 ) {}
+
+var struct = {
+	foo: bar,
+	// leading
+	" baz ": qux, // trailing
+	noone: function() {
+		return {};
+	},
+	nested: {
+		constructor: [
+			[
+				5,
+				2,
+				4,
+			],
+		],
+	},
+};
