@@ -18,7 +18,9 @@ GoboCat maintains the opinionated nature of most stylistic choices, but introduc
 
 It attempts to be backward compatible, and not introduce new default behaviors that alter output without an optional toggle, with rare exceptions.
 
-## Example (only some of the options; see the online demo for more)
+## Example
+
+Only some of the options are shown. See the online demo for more.
 
 ```js
 // Input
@@ -103,19 +105,19 @@ The following configuration options are available:
 
 | Setting | Default | Description |
 | :--- | :--- | :--- |
+| `limitWidth` | `false` | Toggle for `maxLineWidth` enforcement. |
 | `maxLineWidth` | `90` | The line length that the formatter will wrap on. |
 | `useTabs` | `false` | Whether to indent with tabs instead of spaces. |
 | `tabWidth` | `4` | Spaces per indentation level (used for line length calculation if `useTabs` is true). |
 | `flatExpressions` | `false` | Prevents expressions from wrapping, regardless of `maxLineWidth`. |
-| `verticalStructs` | `true` | Forces struct members onto new lines during variable initialization. |
-| `verticals` | `true` | Forces  elements onto new lines during variable initialization (ignores 1-length s). |
+| `multilineStructs` | `true` | Forces struct members onto new lines (ignores 1-length). |
+| `multilineArrays` | `true` | Forces array elements onto new lines (ignores 1-length). |
 | `multilineTernary` | `false` | Forces conditional (ternary) expressions onto multiple lines (ESLint `multiline-ternary`). |
-| `limitWidth` | `false` | Toggle for `maxLineWidth` enforcement. |
+| `multilineArguments` | `false` | Forces all function arguments onto new lines, regardless of line width. |
 | `blankLineAfterBlocks` | `true` | Injects a blank line after `}` if followed by another statement (IDE2003 style). |
 | `explicitUndefined` | `false` | Replaces empty arguments in function calls with explicit `undefined` keyword. |
-| `multilineArguments` | `false` | Forces all function arguments onto new lines, regardless of line width. |
 
-## Limitations
+## Important notes
 
 > [!WARNING]
 > Don't complain if you've skipped this section.
@@ -127,6 +129,34 @@ GoboCat cannot parse code that relies on macro expansion to be valid. Any standa
 THESE_MACROS;
 ARE.VALID;
 BECAUSE_THEY_ARE_EXPRESSIONS()
+```
+
+### Ignored code
+
+Write `// fmt-ignore` above a piece of code to prevent GoboCat from formatting it.
+```js
+// fmt-ignore
+x := begin /*I like my structs this way*/ end
+```
+If your code ~~abuses macros~~ requires expanded macros to be valid, place the macros inside a block starting with `// fmt-ignore` to preserve them.
+
+Note that the ignored code must still be valid GML.
+```js
+// fmt-ignore
+{
+    ABUSE_MACROS
+    IN_THIS
+    BLOCK
+}
+
+OTHERWISE_I_WILL;
+ADD_SEMICOLONS;
+
+// fmt-ignore
+{
+    // Won't work!
+    invalid_syntax(
+}
 ```
 
 ## How it works
@@ -237,7 +267,7 @@ call(/*comment*/);
 
 ### Trailing commas
 
-GoboCat strips trailing commas from argument lists in the source. It only adds them back to structs, arrays, and argument lists when they span multiple lines.
+Only if multiline for any reason (arrays, structs, arguments); stripped from inline.
 
 ```js
 // multiline
@@ -246,13 +276,14 @@ s = {
     f: 9,
 };
 
-// singleline
+// inline
 s = {d: 5, f: 9};
 ```
 
 ### Array Accessors
 
-Automatically converts legacy multi-index arrays to modern (JS-style) chained accessors:
+Enforces modern (JS-style) chained accessors.
+
 ```js
 // before
 array[0, 2];
@@ -261,16 +292,9 @@ array[0, 2];
 array[0][2];
 ```
 
-### Comments
-
-> [!WARNING]
-> This behavior is subject to change!
-
-GoboCat currently does not format the content of comments. JSDoc comment formatting may be added in the future.
-
 ### Operators and Braces
 
-GML provides alternative forms for certain symbols. GoboCat standardizes these symbols according to the following table:
+Standardizes symbols according to the following table:
 
 | Symbol| Preferred Form|
 | ----------- | ----------- |
@@ -287,7 +311,7 @@ GML provides alternative forms for certain symbols. GoboCat standardizes these s
 
 ### Redundant parentheses
 
-GoboCat removes redundant parentheses around certain expressions:
+Removes redundant parentheses around certain expressions:
 ```js
 // before
 var foo = ( -(((a + b))) + -(c) );
@@ -296,30 +320,9 @@ var foo = ( -(((a + b))) + -(c) );
 var foo = -(a + b) + -c;
 ```
 
-### Ignored code
+### Comments
 
-Write `// fmt-ignore` above a piece of code to prevent GoboCat from formatting it.
-```js
-// fmt-ignore
-x := begin /*I like my structs this way*/ end
-```
-If your code ~~abuses macros~~ requires expanded macros to be valid, place the macros inside a block starting with `// fmt-ignore` to preserve them.
+> [!WARNING]
+> This behavior is subject to change! JSDoc comment formatting may be added in the future
 
-Note that the ignored code must still be valid GML.
-```js
-// fmt-ignore
-{
-    ABUSE_MACROS
-    IN_THIS
-    BLOCK
-}
-
-OTHERWISE_I_WILL;
-ADD_SEMICOLONS;
-
-// fmt-ignore
-{
-    // Won't work!
-    invalid_syntax(
-}
-```
+Doesn't format the content of comments. May only move them a little.
