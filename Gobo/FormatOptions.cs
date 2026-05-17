@@ -23,6 +23,7 @@ public record FormatOptions
     public bool ExplicitUndefined { get; set; } = false;
     public bool MultilineArguments { get; set; } = false;
     public bool MultilineAccessors { get; set; } = false;
+    public bool MultilineConstructors { get; set; } = false;
 
     [JsonIgnore]
     public BraceStyle BraceStyle { get; set; } = BraceStyle.SameLine;

@@ -95,6 +95,15 @@
             <label for="multilineArguments" class="text-light form-check-label">Multiline Arguments</label>
         </div>
 
+        <div class="form-check" title="Forces all function arguments onto new lines, regardless of line width.">
+            <input type="checkbox"
+                class="form-check-input"
+                id="multilineConstructors"
+                @bind="_formatOptions.MultilineConstructors"
+                @bind:after="RequestUpdate" />
+            <label for="multilineConstructors" class="text-light form-check-label">Multiline Constructors</label>
+        </div>
+
         <div class="form-check" title="Forces chained member accessors onto multiple lines when 2+ accessors present.">
             <input type="checkbox"
                 class="form-check-input"
