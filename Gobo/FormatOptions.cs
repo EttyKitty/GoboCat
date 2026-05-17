@@ -22,6 +22,7 @@ public record FormatOptions
     public bool BlankLineAfterBlocks { get; set; } = false;
     public bool ExplicitUndefined { get; set; } = false;
     public bool MultilineArguments { get; set; } = false;
+    public bool MultilineAccessors { get; set; } = false;
 
     [JsonIgnore]
     public BraceStyle BraceStyle { get; set; } = BraceStyle.SameLine;

@@ -1,4 +1,4 @@
-﻿using Gobo.Printer.DocTypes;
+using Gobo.Printer.DocTypes;
 using Gobo.SyntaxNodes.Gml;
 
 namespace Gobo.SyntaxNodes.PrintHelpers;
@@ -35,23 +35,25 @@ internal static class MemberChain
             return Doc.ForceFlat(printedNodes.Select(x => x.Doc).ToArray());
         }
 
+        var accessorCount = printedNodes.Count(n => n.Node is MemberDotExpression);
+        var forceBreak = ctx.Options.MultilineAccessors && accessorCount > 1;
+
         var groups = printedNodes.Any(o => o.Node is CallExpression)
             ? GroupPrintedNodesPrettierStyle(printedNodes)
             : GroupPrintedNodesOnLines(printedNodes);
 
         var oneLine = groups.SelectMany(o => o).Select(o => o.Doc).ToArray();
 
-        var shouldMergeFirstTwoGroups = ShouldMergeFirstTwoGroups(groups);
+        var shouldMergeFirstTwoGroups = !forceBreak && ShouldMergeFirstTwoGroups(groups);
 
         var cutoff = shouldMergeFirstTwoGroups ? 3 : 2;
 
         var forceOneLine =
-            groups.Count <= cutoff
-            && (
-                groups
-                    .Skip(shouldMergeFirstTwoGroups ? 1 : 0)
-                    .Any(o => o.Last().Node is not CallExpression)
-            )
+            !forceBreak
+            && groups.Count <= cutoff
+            && groups
+                .Skip(shouldMergeFirstTwoGroups ? 1 : 0)
+                .Any(o => o.Last().Node is not CallExpression)
             && !oneLine.Any(DocUtilities.ContainsBreak);
 
         if (forceOneLine)
@@ -73,6 +75,11 @@ internal static class MemberChain
                 : Doc.Null,
             PrintIndentedGroup(node, groups.Skip(shouldMergeFirstTwoGroups ? 2 : 1).ToList())
         );
+
+        if (forceBreak)
+        {
+            return expanded;
+        }
 
         return oneLine.Skip(1).Any(DocUtilities.ContainsBreak)
             ? expanded

@@ -114,6 +114,7 @@ The following configuration options are available:
 | `multilineArrays` | `true` | Forces array elements onto new lines (ignores 1-length). |
 | `multilineTernary` | `false` | Forces conditional (ternary) expressions onto multiple lines (ESLint `multiline-ternary`). |
 | `multilineArguments` | `false` | Forces all function arguments onto new lines, regardless of line width. |
+| `multilineAccessors` | `false` | Forces chained member accessors onto multiple lines when 2+ accessors present. |
 | `blankLineAfterBlocks` | `true` | Injects a blank line after `}` if followed by another statement (IDE2003 style). |
 | `explicitUndefined` | `false` | Replaces empty arguments in function calls with explicit `undefined` keyword. |
 

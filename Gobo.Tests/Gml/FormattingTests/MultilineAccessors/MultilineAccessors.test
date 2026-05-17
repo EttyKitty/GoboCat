@@ -1,0 +1,23 @@
+a.b.c;
+
+a.b;
+
+a.b.c.d;
+
+a.b().c().d();
+
+a.b.c.d.e.f;
+
+some_long_variable.do_something().do_something_else();
+
+var x = a.b.c;
+
+var x = a.b;
+
+var x = a.b().c().d();
+
+var x = array[a].b.c;
+
+self.method(a.b.c, d.e.f);
+
+a.b;
