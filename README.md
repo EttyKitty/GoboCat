@@ -6,17 +6,38 @@
   Try online version of the formatter here: https://ettykitty.github.io/Gobo/
 </h4>
 
-## What is this?
+> [!WARNING]
+> GoboCat is still being actively developed. I'm adding options and changing behavior weekly. If you want stability, use older versions or return to Gobo.
 
-GoboCat is an opinionated formatter for GameMaker Language (GML). It enforces a consistent style by parsing and re-printing your code according to standardized rules.
+## What is GoboCat?
 
-By using GoboCat, you agree to cede control over the nitty-gritty details of formatting. In return, GoboCat gives you speed, determinism, and smaller git diffs. End style debates with your team and save mental energy for what's important!
+GoboCat is a **deterministic formatter** for GameMaker Language (GML). It parses your code and reprints it according to rules you control, without relying on line width limits or visual complexity heuristics.
 
-## What is different in GoboCat vs Gobo? It's slightly less opinionated
+Unlike traditional formatters (Prettier, gofmt, etc.), GoboCat does **not** decide when to break lines based on how long a line is. Instead, you choose which syntactic structures should always "explode" into multiline form (arrays, structs, function arguments, ternaries, binary expressions, etc.). When a structure explodes, it propagates, forcing all related children to explode as well. The result is **predictable, consistent, and diff‑friendly**.
 
-GoboCat maintains the opinionated nature of most stylistic choices, but introduces specific toggles for style preferences that the original project didn't.
+GoboCat is **opinionated about the format of some things**, but it gives you **binary‑choice toggles** for high‑level structural preferences. You enable an option, and GoboCat applies it **everywhere**, no hidden "smart" heuristics, no sudden changes because a variable name grew longer. This means the same code will format identically regardless of the length of identifiers or comments.
 
-It attempts to be backward compatible, and not introduce new default behaviors that alter output without an optional toggle, with rare exceptions.
+**My personal belief**: Formatting should be semantic, logic‑centered, and **ruthlessly consistent**. An array should look the same everywhere in the codebase, not suddenly change because a line happened to exceed 90 characters. Your brain shouldn't have to maintain multiple visual patterns for the same syntactic structure. When a logical group is complex, multiple binaries, ternaries, nested calls, it should be explicitly delimited, without heuristic *ifs* or *buts*.
+
+## What is different in GoboCat vs Gobo?
+
+The original Gobo was fully opinionated: it decided when to break lines based on a single user input - line length. GoboCat is **slightly less opinionated**, it shifts from line length being the main formatting trigger and replaces it with user‑controlled "explosion" toggles.
+
+You, the developer, decide how exploded you want your code to be. GoboCat simply follows those decisions, consistently and without surprises.
+
+> [!WARNING]
+> `LineWidth` is still retained as an option for now, but the goal is to abandon it fully. It may be deleted in the future. If you want it, use Gobo, not GoboCat.
+
+## Philosophy
+
+- **Predictability over magic**: No sudden explosions because you've added a few characters to the line.
+- **Explicit over implicit**: Formatting rules are toggles you set, not heuristics you guess.
+- **Refactor, don’t hide**: If code looks messy after formatting, it *is* messy. GoboCat reveals complexity; it’s up to you to simplify the structure, live with it, or disable options.
+- **Diff‑minimal**: Trailing commas, exploded argument lists, and propagation rules make adding, removing, or reordering elements change only the lines they appear on.
+
+By using GoboCat, you agree to let it control the *low‑level* details in exchange for speed, determinism, and smaller git diffs. But *you* retain control over the *high‑level* structural explosion of your code, not an arbitrary visual character limit.
+
+End style debates with your team and save mental energy for what’s important!
 
 ## Example
 
@@ -110,10 +131,11 @@ The following configuration options are available:
 | `useTabs` | `false` | Whether to indent with tabs instead of spaces. |
 | `tabWidth` | `4` | Spaces per indentation level (used for line length calculation if `useTabs` is true). |
 | `flatExpressions` | `false` | Prevents expressions from wrapping, regardless of `maxLineWidth`. |
-| `multilineStructs` | `true` | Forces struct members onto new lines (ignores 1-length). |
+| `multilineStructs` | `true` | Forces struct members onto new lines. |
 | `multilineArrays` | `true` | Forces array elements onto new lines (ignores 1-length). |
 | `multilineTernary` | `false` | Forces conditional (ternary) expressions onto multiple lines (ESLint `multiline-ternary`). |
 | `multilineArguments` | `false` | Forces all function arguments onto new lines, regardless of line width. |
+| `multilineConstructors` | `false` | Forces all constructor function arguments onto new lines, regardless of line width. |
 | `multilineAccessors` | `false` | Forces chained member accessors onto multiple lines when 2+ accessors present. |
 | `blankLineAfterBlocks` | `true` | Injects a blank line after `}` if followed by another statement (IDE2003 style). |
 | `explicitUndefined` | `false` | Replaces empty arguments in function calls with explicit `undefined` keyword. |
@@ -250,20 +272,21 @@ In GML, empty arguments are implicitly passed to functions as `undefined`. GoboC
 ```js
 // before
 call(,,foo,);
+call(, /*comment*/ ,)
 
 // after
 call(,, foo);
+call(/*comment*/);
+
 ```
 
 With `explicitUndefined` enabled, internal empty arguments are replaced with `undefined`:
 ```js
 // before
 call(,,foo,);
-call(, /*comment*/ ,)
 
 // after
 call(undefined, undefined, foo);
-call(/*comment*/);
 ```
 
 ### Trailing commas
