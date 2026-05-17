@@ -7,6 +7,4 @@ internal class DocPrinterOptions
     public bool LimitWidth { get; init; } = false;
     public int MaxLineWidth { get; init; } = 90;
     public bool TrimInitialLines { get; init; } = true;
-
-    public const int WidthUsedByTests = 100;
 }
