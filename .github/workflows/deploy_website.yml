@@ -8,11 +8,15 @@ on:
       - '**.md'
       - 'docs/**'
       - '.gitignore'
+  workflow_dispatch:
 
 jobs:
   deploy-to-github-pages:
-    if: "!startsWith(github.event.head_commit.message, 'docs:') && !contains(github.event.head_commit.message, '[skip ci]')"
-    # use ubuntu-latest image to run steps on
+    if: |
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'push'
+       && !startsWith(github.event.head_commit.message, 'docs:')
+       && !contains(github.event.head_commit.message, '[skip ci]'))
     runs-on: ubuntu-latest
     steps:
     # uses GitHub's checkout action to checkout code form the master branch
