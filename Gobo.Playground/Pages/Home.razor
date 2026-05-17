@@ -50,15 +50,6 @@
             </div>
         }
 
-        <div class="form-check">
-            <input type="checkbox"
-                class="form-check-input"
-                id="showAst"
-                @bind="_showAst"
-                @bind:after="OnShowAstChanged" />
-            <label for="showAst" class="text-light form-check-label">Show AST</label>
-        </div>
-
         <div class="form-check" title="If checked, expressions will always be formatted horizontally.">
             <input type="checkbox"
                 class="form-check-input"
@@ -74,7 +65,7 @@
                 id="multilineStructs"
                 @bind="_formatOptions.MultilineStructs"
                 @bind:after="RequestUpdate" />
-            <label for="multilineStructs" class="text-light form-check-label">Vertical Structs</label>
+            <label for="multilineStructs" class="text-light form-check-label">Multiline Structs</label>
         </div>
 
         <div class="form-check" title="If checked, arrays will always be formatted vertically.">
@@ -83,7 +74,7 @@
                 id="multilineArrays"
                 @bind="_formatOptions.MultilineArrays"
                 @bind:after="RequestUpdate" />
-            <label for="multilineArrays" class="text-light form-check-label">Vertical Arrays</label>
+            <label for="multilineArrays" class="text-light form-check-label">Multiline Arrays</label>
         </div>
 
         <div class="form-check" title="If checked, enforces newlines between the operands of a ternary expression.">
@@ -92,7 +83,25 @@
                 id="multilineTernary"
                 @bind="_formatOptions.MultilineTernary"
                 @bind:after="RequestUpdate" />
-            <label for="multilineTernary" class="text-light form-check-label">Vertical Conditionals</label>
+            <label for="multilineTernary" class="text-light form-check-label">Multiline Ternary</label>
+        </div>
+
+        <div class="form-check" title="Forces all function arguments onto new lines, regardless of line width.">
+            <input type="checkbox"
+                class="form-check-input"
+                id="multilineArguments"
+                @bind="_formatOptions.MultilineArguments"
+                @bind:after="RequestUpdate" />
+            <label for="multilineArguments" class="text-light form-check-label">Multiline Arguments</label>
+        </div>
+
+        <div class="form-check" title="Forces chained member accessors onto multiple lines when 2+ accessors present.">
+            <input type="checkbox"
+                class="form-check-input"
+                id="multilineAccessors"
+                @bind="_formatOptions.MultilineAccessors"
+                @bind:after="RequestUpdate" />
+            <label for="multilineAccessors" class="text-light form-check-label">Multiline Accessors</label>
         </div>
 
         <div class="form-check" title="Insert a blank line between a block statement and any subsequent statement at the same scope level.">
@@ -113,13 +122,15 @@
             <label for="explicitUndefined" class="text-light form-check-label">Explicit Undefined</label>
         </div>
 
-        <div class="form-check" title="Forces all function arguments onto new lines, regardless of line width.">
+        <h6 class="text-light">Debug</h6>
+
+        <div class="form-check">
             <input type="checkbox"
                 class="form-check-input"
-                id="multilineArguments"
-                @bind="_formatOptions.MultilineArguments"
-                @bind:after="RequestUpdate" />
-            <label for="multilineArguments" class="text-light form-check-label">Multiline Arguments</label>
+                id="showAst"
+                @bind="_showAst"
+                @bind:after="OnShowAstChanged" />
+            <label for="showAst" class="text-light form-check-label">Show AST</label>
         </div>
 
         <a class="btn btn-outline-light mt-auto" href="https://github.com/ettykitty/Gobo" target="_blank">
