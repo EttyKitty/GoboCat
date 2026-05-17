@@ -101,9 +101,7 @@ CLIENTS.items
 	}))
 	.on_error(method({this: this, player_id: _player_id}, function(_err) {
 		// reduce will fail if player doesn't have item
-		LOGGER
-		// reduce will fail if player doesn't have item
-		.info("Wiping bag for player:", {player_id: player_id});
+		LOGGER.info("Wiping bag for player:", {player_id: player_id});
 		CLIENTS.items.delete_all_items_in_equipped_bag(player_id);
 		// Quest flag death flag
 		CLIENTS.quests

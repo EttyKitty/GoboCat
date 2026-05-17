@@ -70,15 +70,15 @@ call_method(
 call_method() // trailing comment
 .call_method(); // <- This should indent
 
-call_method() 
+call_method()
 // leading comment
 .call_method(); // <- This should indent
 
 // Last two calls should indent
 call_method(
         first_parameter____________________________,
-        second_parameter___________________________ 
-    ) 
+        second_parameter___________________________
+    )
     .call_method(
         first_parameter____________________________,
         second_parameter___________________________
@@ -122,7 +122,7 @@ CLIENTS
 }))
 .on_error(method({this: this, player_id: _player_id}, function(_err) {
     // reduce will fail if player doesn't have item
-    LOGGER.info // reduce will fail if player doesn't have item
+    LOGGER.info
     ("Wiping bag for player:", {player_id: player_id});
     CLIENTS.items.delete_all_items_in_equipped_bag(player_id);
     // Quest flag death flag
