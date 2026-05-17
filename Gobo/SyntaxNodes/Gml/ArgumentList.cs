@@ -30,7 +30,7 @@ internal sealed class ArgumentList : GmlSyntaxNode
             return EmptyArguments;
         }
 
-        if (ctx.Options.MultilineArguments && Children.Count > 1)
+        if (ctx.Options.MultilineArguments && Children.Count > 1 && Parent is CallExpression or NewExpression)
         {
             result = DelimitedList.PrintInBrackets(ctx, "(", this, ")", ",", allowTrailingSeparator: true, forceBreak: true);
         }
