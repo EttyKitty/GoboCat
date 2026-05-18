@@ -9,6 +9,13 @@ public enum BraceStyle
     NewLine,
 }
 
+public enum MultilineArgumentsMode
+{
+    Never = 0,
+    Always = 1,
+    Smart = 2,
+}
+
 public record FormatOptions
 {
     public bool UseTabs { get; set; } = false;
@@ -21,7 +28,7 @@ public record FormatOptions
     public bool LimitWidth { get; set; } = false;
     public bool BlankLineAfterBlocks { get; set; } = false;
     public bool ExplicitUndefined { get; set; } = false;
-    public bool MultilineArguments { get; set; } = false;
+    public MultilineArgumentsMode MultilineArguments { get; set; } = MultilineArgumentsMode.Never;
     public bool MultilineAccessors { get; set; } = false;
     public bool MultilineConstructors { get; set; } = false;
 

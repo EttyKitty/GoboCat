@@ -1,0 +1,17 @@
+// Smart mode: all simple args stay inline
+call(a, b, c);
+call(foo.bar, items[0], x);
+call(1, 2, 3);
+call("a", "b", "c");
+
+// Smart mode: complex args trigger multiline
+call(a + b, c);
+call(foo(), bar);
+call(a, { x: 1 });
+call(a, b, c, d(), e);
+
+// Single complex arg - doesn't trigger (only 1 child)
+call(foo());
+
+// Nested: inner calls with simple args stay flat
+nested(call(a, b), call(c, d));

@@ -2,6 +2,5 @@
   "useTabs": true,
   "multilineStructs": false,
   "multilineArrays": false,
-  "multilineArguments": 1,
-  "multilineConstructors": true
+  "multilineArguments": 2
 }

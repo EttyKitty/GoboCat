@@ -86,13 +86,16 @@
             <label for="multilineTernary" class="text-light form-check-label">Multiline Ternary</label>
         </div>
 
-        <div class="form-check" title="Forces all function arguments onto new lines, regardless of line width.">
-            <input type="checkbox"
-                class="form-check-input"
+        <div class="mb-3" title="Controls how function arguments are formatted.">
+            <label for="multilineArguments" class="form-label text-light">Multiline Arguments</label>
+            <select class="form-select form-select-sm"
                 id="multilineArguments"
                 @bind="_formatOptions.MultilineArguments"
-                @bind:after="RequestUpdate" />
-            <label for="multilineArguments" class="text-light form-check-label">Multiline Arguments</label>
+                @bind:after="RequestUpdate">
+                <option value="0">Never</option>
+                <option value="1">Always</option>
+                <option value="2">Smart</option>
+            </select>
         </div>
 
         <div class="form-check" title="Forces all function arguments onto new lines, regardless of line width.">

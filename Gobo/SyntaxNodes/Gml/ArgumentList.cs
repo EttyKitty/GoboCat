@@ -1,4 +1,5 @@
 using Gobo.Printer.DocTypes;
+using Gobo.SyntaxNodes.Gml.Literals;
 using Gobo.SyntaxNodes.PrintHelpers;
 
 namespace Gobo.SyntaxNodes.Gml;
@@ -30,7 +31,18 @@ internal sealed class ArgumentList : GmlSyntaxNode
             return EmptyArguments;
         }
 
-        if (Children.Count > 1 && ((ctx.Options.MultilineArguments && Parent is CallExpression or NewExpression) || (ctx.Options.MultilineConstructors && Parent is NewExpression)))
+        var forceBreak = ctx.Options.MultilineArguments switch
+        {
+            MultilineArgumentsMode.Always => true,
+            MultilineArgumentsMode.Smart => Children.Any(a => !IsSimpleArg(a)),
+            _ => false
+        };
+
+        if (Children.Count > 1
+            && ((forceBreak
+                    && Parent is CallExpression or NewExpression)
+                || (ctx.Options.MultilineConstructors
+                    && Parent is NewExpression)))
         {
             result = DelimitedList.PrintInBrackets(ctx, "(", this, ")", ",", allowTrailingSeparator: true, forceBreak: true);
         }
@@ -93,6 +105,13 @@ internal sealed class ArgumentList : GmlSyntaxNode
 
         return ctx.Options.FlatExpressions ? Doc.ForceFlat(printed) : printed;
     }
+
+    private static bool IsSimpleArg(GmlSyntaxNode arg) =>
+        arg is Identifier
+        or IntegerLiteral or DecimalLiteral or StringLiteral
+        or VerbatimStringLiteral or UndefinedLiteral
+        or UndefinedArgument
+        or MemberDotExpression or MemberIndexExpression or ArrayIndexExpression;
 
     private bool ShouldBreakOnLastArgument()
     {
