@@ -23,7 +23,7 @@ jobs:
 
     - name: Checkout
       uses: actions/checkout@v4
-    
+
     - name: Setup .NET Core SDK
       uses: actions/setup-dotnet@v4
       with:
@@ -34,11 +34,11 @@ jobs:
 
     - name: Publish .NET Core Project
       run: dotnet publish Gobo.Playground/Gobo.Playground.csproj -c Release -o release --nologo
-    
+
     # changes the base-tag in index.html from '/' to 'Gobo.Playground' to match GitHub Pages repository subdirectory
     - name: Change base-tag in index.html from / to Gobo
-      run: sed -i 's/<base href="\/" \/>/<base href="\/Gobo\/" \/>/g' release/wwwroot/index.html
-    
+      run: sed -i 's/<base href="\/" \/>/<base href="\/GoboCat\/" \/>/g' release/wwwroot/index.html
+
     # copy index.html to 404.html to serve the same file when a file is not found
     - name: copy index.html to 404.html
       run: cp release/wwwroot/index.html release/wwwroot/404.html
@@ -46,7 +46,7 @@ jobs:
     # add .nojekyll file to tell GitHub pages to not treat this as a Jekyll project. (Allow files and folders starting with an underscore)
     - name: Add .nojekyll file
       run: touch release/wwwroot/.nojekyll
-      
+
     - name: Commit wwwroot to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@v4
       with:
