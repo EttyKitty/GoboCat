@@ -88,13 +88,12 @@
 
         <div class="mb-3" title="Controls how function arguments are formatted.">
             <label for="multilineArguments" class="form-label text-light">Multiline Arguments</label>
-            <select class="form-select form-select-sm"
-                id="multilineArguments"
+            <select
                 @bind="_formatOptions.MultilineArguments"
                 @bind:after="RequestUpdate">
-                <option value="0">Never</option>
-                <option value="1">Always</option>
-                <option value="2">Smart</option>
+                <option value="@MultilineArgumentsMode.Never">Never</option>
+                <option value="@MultilineArgumentsMode.Always">Always</option>
+                <option value="@MultilineArgumentsMode.Smart">Smart</option>
             </select>
         </div>
 
