@@ -3,71 +3,35 @@
 </h1>
 
 <h4 align="center">
-  Try online version of the formatter here: https://ettykitty.github.io/Gobo/
+  Try online version of the formatter here: https://ettykitty.github.io/GoboCat/
 </h4>
 
 > [!WARNING]
-> GoboCat is still being actively developed. I'm adding options and changing behavior weekly. If you want stability, use older versions or return to Gobo.
+> GoboCat is in active development. Options and behaviors change weekly. For stability, use older versions or the original Gobo.
 
 ## What is GoboCat?
 
-GoboCat is a **deterministic formatter** for GameMaker Language (GML). It parses your code and reprints it according to rules you control, without relying on line width limits or visual complexity heuristics.
+GoboCat is a **deterministic formatter** for GameMaker Language (GML). Unlike traditional formatters (Prettier, gofmt) that wrap lines based on length limits, GoboCat relies on user-controlled structural rules (aka "ESLint-light").
 
-Unlike traditional formatters (Prettier, gofmt, etc.), GoboCat does **not** decide when to break lines based on how long a line is. Instead, you choose which syntactic structures should always "explode" into multiline form (arrays, structs, function arguments, ternaries, binary expressions, etc.). When a structure explodes, it propagates, forcing all related children to explode as well. The result is **predictable, consistent, and diff‑friendly**.
+Formatting is semantic, logic-centered, and consistent. The same code formats identically regardless of identifier lengths or comments, ensuring your brain processes a consistent visual pattern for each syntactic structure.
 
-GoboCat is **opinionated about the format of some things**, but it gives you **binary‑choice toggles** for high‑level structural preferences. You enable an option, and GoboCat applies it **everywhere**, no hidden "smart" heuristics, no sudden changes because a variable name grew longer. This means the same code will format identically regardless of the length of identifiers or comments.
+### Philosophy
 
-**My personal belief**: Formatting should be semantic, logic‑centered, and **ruthlessly consistent**. An array should look the same everywhere in the codebase, not suddenly change because a line happened to exceed 90 characters. Your brain shouldn't have to maintain multiple visual patterns for the same syntactic structure. When a logical group is complex, multiple binaries, ternaries, nested calls, it should be explicitly delimited, without heuristic *ifs* or *buts*.
+- **Refactor, don't hide**: GoboCat exposes complex code structures rather than masking them behind complex wrapping logic.
+- **User controlled**: You control what expand into multiline forms, not character count.
+- **Consistent**: No hidden heuristics or sudden layout shifts when character count changes.
+- **Diff-minimal**: Trailing commas and exploded lists limit git diff noise.
 
-## What is different in GoboCat vs Gobo?
+### GoboCat vs Gobo
 
-The original Gobo was fully opinionated: it decided when to break lines based on a single user input - line length. GoboCat is **slightly less opinionated**, it shifts from line length being the main formatting trigger and replaces it with user‑controlled "explosion" toggles.
-
-You, the developer, decide how exploded you want your code to be. GoboCat simply follows those decisions, consistently and without surprises.
+The original Gobo triggers line breaks based on a maximum line length. GoboCat shifts from line length as the primary formatting trigger, replacing it with explicit multiline toggles.
 
 > [!WARNING]
-> `LineWidth` is still retained as an option for now, but the goal is to abandon it fully. It may be deleted in the future. If you want it, use Gobo, not GoboCat.
+> `LineWidth` is retained temporarily but is deprecated. If your workflow requires strict line-width wrapping, use Gobo instead of GoboCat.
 
-## Philosophy
+## Examples
 
-- **Predictability over magic**: No sudden explosions because you've added a few characters to the line.
-- **Explicit over implicit**: Formatting rules are toggles you set, not heuristics you guess.
-- **Refactor, don’t hide**: If code looks messy after formatting, it *is* messy. GoboCat reveals complexity; it’s up to you to simplify the structure, live with it, or disable options.
-- **Diff‑minimal**: Trailing commas, exploded argument lists, and propagation rules make adding, removing, or reordering elements change only the lines they appear on.
-
-By using GoboCat, you agree to let it control the *low‑level* details in exchange for speed, determinism, and smaller git diffs. But *you* retain control over the *high‑level* structural explosion of your code, not an arbitrary visual character limit.
-
-End style debates with your team and save mental energy for what’s important!
-
-## Example
-
-Only some of the options are shown. See the online demo for more.
-
-```js
-// Input
-x = a and b or c  a=0xFG=1 var var var i := 0 s={d: 5, f: 9}
-do begin
-;;;;show_debug_message(i)
-;;;;i++
-end until not i < 10 return
-call()
-
-// Output
-x = a && b || c;
-a = 0xF;
-G = 1;
-var i = 0;
-s = {
-    d: 5,
-    f: 9,
-};
-do {
-    show_debug_message(i);
-    i++;
-} until (!i < 10)
-
-return call();
-```
+Check https://ettykitty.github.io/GoboCat/
 
 ## Usage
 
@@ -99,15 +63,10 @@ gobo --check ./src
 | `--write-stdout` | Prints the formatted code to the terminal instead of saving to the file. |
 | `--skip-write` | Dry run. Processes everything but doesn't touch your files. |
 
-### Tips
-
-- **Ignore Folders:** Gobo automatically ignores `node_modules`, `extensions`, `.git`, `.svn`, `prefabs`, `bin`, and `obj` folders to keep your scans fast.
-- **Automation:** Run `gobo --check .` in your Pull Request pipeline to ensure no unformatted code ever hits your main branch.
-
 ## Configuration
 
 > [!WARNING]
-> GoboCat uses strict JSON parsing. Ensure that there are no missing commas and all property names are double-quoted.
+> JSON is strict. Ensure that there are no missing commas and all property names are double-quoted.
 
 GoboCat searches for a `.goborc.json` file starting from the directory of the file being formatted and searching up through parent directories. This allows you to have a global configuration at your project root and overrides in specific subdirectories. If no config was found, default options are used.
 
@@ -115,8 +74,8 @@ GoboCat searches for a `.goborc.json` file starting from the directory of the fi
 
 ```json
 {
-  "width": 90,
-  "useTabs": true
+  "useTabs": false,
+  "tabWidth": 4
 }
 ```
 
@@ -124,26 +83,30 @@ GoboCat searches for a `.goborc.json` file starting from the directory of the fi
 
 The following configuration options are available:
 
-| Setting | Default | Description |
-| :--- | :--- | :--- |
-| `limitWidth` | `false` | Toggle for `maxLineWidth` enforcement. |
-| `maxLineWidth` | `90` | The line length that the formatter will wrap on. |
-| `useTabs` | `false` | Whether to indent with tabs instead of spaces. |
-| `tabWidth` | `4` | Spaces per indentation level (used for line length calculation if `useTabs` is true). |
-| `flatExpressions` | `false` | Prevents expressions from wrapping, regardless of `maxLineWidth`. |
-| `multilineStructs` | `true` | Forces struct members onto new lines. |
-| `multilineArrays` | `true` | Forces array elements onto new lines (ignores 1-length). |
-| `multilineTernary` | `false` | Forces conditional (ternary) expressions onto multiple lines (ESLint `multiline-ternary`). |
-| `multilineArguments` | `false` | Forces all function arguments onto new lines, regardless of line width. |
-| `multilineConstructors` | `false` | Forces all constructor function arguments onto new lines, regardless of line width. |
-| `multilineAccessors` | `false` | Forces chained member accessors onto multiple lines when 2+ accessors present. |
-| `blankLineAfterBlocks` | `true` | Injects a blank line after `}` if followed by another statement (IDE2003 style). |
-| `explicitUndefined` | `false` | Replaces empty arguments in function calls with explicit `undefined` keyword. |
+| Setting | Default | Supported | Description |
+| :--- | :--- | :--- | :--- |
+| `limitWidth` | `false` | `bool` | Toggle for `maxLineWidth` enforcement. |
+| `maxLineWidth` | `90` | `int` | The line length that the formatter will wrap on. |
+| `useTabs` | `false` | `bool` | Whether to indent with tabs instead of spaces. |
+| `tabWidth` | `4` | `int` | Spaces per indentation level (used for line length calculation if `useTabs` is true). |
+| `flatExpressions` | `false` | `bool` | Prevents expressions from wrapping, ignoring `maxLineWidth`. |
+| `multilineStructs` | `true` | `bool` | Expands struct members onto new lines. |
+| `multilineArrays` | `true` | `bool` | Expands array elements onto new lines when >1. |
+| `multilineTernary` | `false` | `bool` | Expands conditional (ternary) expressions onto new lines (ESLint `multiline-ternary`). |
+| `multilineArguments` | `0` | `0 (Never), 1 (Always), 2 (Smart)` | `Always` expands function arguments onto new lines when >1. `Smart` checks if one of the arguments is "complex" (not a `var`, `literal`, `accessor`). |
+| `multilineConstructors` | `false` | `bool` | Expands all constructor function arguments onto new lines. |
+| `multilineAccessors` | `false` | `bool` | Expands chained member accessors onto new lines when >1. |
+| `blankLineAfterBlocks` | `true` | `bool` | Injects a blank line after `}` if followed by another statement (IDE2003 style). |
+| `explicitUndefined` | `false` | `bool` | Replaces empty arguments in function calls with explicit `undefined` keyword. |
 
 ## Important notes
 
 > [!WARNING]
 > Don't complain if you've skipped this section.
+
+### Ignored folders
+
+GoboCat automatically ignores `node_modules`, `extensions`, `.git`, `.svn`, `prefabs`, `bin`, and `obj` folders.
 
 ### `#macro`
 
@@ -235,26 +198,6 @@ GoboCat attempts to preserve empty lines between statements, following these rul
 
 GoboCat enforces LF line endings (`\n`).
 
-### Line wrapping
-
-By default, GoboCat attempts to print expressions and statements in a single line if they fit. This goes for function calls, structs, arrays, and comma-separated `var`/`static`/`globalvar` declarations.  Blocks are never printed on a single line unless they are empty.
-
-If a list of items is too long to fit in a single line, each item is printed on its own line. The exception to this rule is function calls --- if a struct or function exists at the end of an argument list, GoboCat tries to break on the final argument first:
-```js
-// default behavior
-call(
-    x______________,
-    y________________,
-    z__________________,
-    w_____________
-)
-
-// break on last argument in method()
-call(x____________, y___________, method({closure: self}, function() {
-    return;
-}));
-```
-
 ### Arguments
 
 GoboCat enforces a space before each non-empty argument:
@@ -291,7 +234,7 @@ call(undefined, undefined, foo);
 
 ### Trailing commas
 
-Only if multiline for any reason (arrays, structs, arguments); stripped from inline.
+Only if multiline (arrays, structs, arguments); stripped from inline.
 
 ```js
 // multiline
@@ -322,13 +265,12 @@ Standardizes symbols according to the following table:
 
 | Symbol| Preferred Form|
 | ----------- | ----------- |
-| `==`, `=`, `:=`| `==` or `=` depending on context|
+| `==`, `=`, `:=`| `==` for comparison and `=` for assignment|
 | `!=`, `<>` | `!=`|
 | `and`, `&&` | `&&`|
 | `or`, `\|\|` | `\|\|`|
 | `xor`, `^^` | `^^`|
 |`not`, `!` | `!`|
-| `!=`, `<>` | `!=`|
 | `begin`, `{` | `{`|
 | `end`, `}` | `}`|
 |`mod`, `%` | `%`|
@@ -344,9 +286,29 @@ var foo = ( -(((a + b))) + -(c) );
 var foo = -(a + b) + -c;
 ```
 
+### Line wrapping (deprecated)
+
+By default, GoboCat attempts to print expressions and statements in a single line if they fit. This goes for function calls, structs, arrays, and comma-separated `var`/`static`/`globalvar` declarations.  Blocks are never printed on a single line unless they are empty.
+
+If a list of items is too long to fit in a single line, each item is printed on its own line. The exception to this rule is function calls --- if a struct or function exists at the end of an argument list, GoboCat tries to break on the final argument first:
+```js
+// default behavior
+call(
+    x______________,
+    y________________,
+    z__________________,
+    w_____________
+)
+
+// break on last argument in method()
+call(x____________, y___________, method({closure: self}, function() {
+    return;
+}));
+```
+
 ### Comments
 
 > [!WARNING]
 > This behavior is subject to change! JSDoc comment formatting may be added in the future
 
-Doesn't format the content of comments. May only move them a little.
+Doesn't format the content of comments. May only move them around a little.
