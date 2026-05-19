@@ -1,4 +1,4 @@
-﻿using Gobo.Parser;
+using Gobo.Parser;
 using Gobo.Printer.DocPrinter;
 using Gobo.SyntaxNodes;
 using Gobo.Text;
@@ -95,8 +95,6 @@ public static partial class GmlFormatter
 
         var printOptions = new Printer.DocPrinterOptions()
         {
-            LimitWidth = options.LimitWidth,
-            MaxLineWidth = options.MaxLineWidth,
             TabWidth = options.TabWidth,
             UseTabs = options.UseTabs,
         };

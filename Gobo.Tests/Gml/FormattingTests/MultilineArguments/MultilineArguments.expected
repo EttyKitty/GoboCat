@@ -1,7 +1,7 @@
 call(
-	dod,
-	bar,
-	foo,
+    dod,
+    bar,
+    foo,
 );
 
 call(a);
@@ -9,48 +9,48 @@ call(a);
 call();
 
 call(
-	a,
-	b,
-	c,
-	d,
-	e,
-	f,
+    a,
+    b,
+    c,
+    d,
+    e,
+    f,
 );
 
 call(
-	function() {},
-	function() {},
+    function() {},
+    function() {},
 );
 
 nested(
-	call(
-		a,
-		b,
-		c,
-	),
-	call(
-		d,
-		e,
-		f,
-	),
+    call(
+        a,
+        b,
+        c,
+    ),
+    call(
+        d,
+        e,
+        f,
+    ),
 );
 
 call(
-	,
-	,
-	foo,
+    ,
+    ,
+    foo,
 );
 
 call(
-	,
-	foo,
+    ,
+    foo,
 );
 
 call(/*comment*/);
 
 call(
-	,
-	foo /*comment*/,
+    ,
+    foo /*comment*/,
 );
 
 call();
@@ -58,16 +58,16 @@ call();
 call();
 
 if (call(
-	foo,
-	foo,
+    foo,
+    foo,
 )) {
-	foo = foo;
+    foo = foo;
 }
 
 repeat (obj.foo) {
-	obj.call(
-		"foo",
-		"foo",
-		foo,
-	);
+    obj.call(
+        "foo",
+        "foo",
+        foo,
+    );
 }

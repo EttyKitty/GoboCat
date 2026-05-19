@@ -26,9 +26,6 @@ Formatting is semantic, logic-centered, and consistent. The same code formats id
 
 The original Gobo triggers line breaks based on a maximum line length. GoboCat shifts from line length as the primary formatting trigger, replacing it with explicit multiline toggles.
 
-> [!WARNING]
-> `LineWidth` is retained temporarily but is deprecated. If your workflow requires strict line-width wrapping, use Gobo instead of GoboCat.
-
 ## Examples
 
 Check https://ettykitty.github.io/GoboCat/
@@ -85,11 +82,9 @@ The following configuration options are available:
 
 | Setting | Default | Supported | Description |
 | :--- | :--- | :--- | :--- |
-| `limitWidth` | `false` | `bool` | Toggle for `maxLineWidth` enforcement. |
-| `maxLineWidth` | `90` | `int` | The line length that the formatter will wrap on. |
 | `useTabs` | `false` | `bool` | Whether to indent with tabs instead of spaces. |
-| `tabWidth` | `4` | `int` | Spaces per indentation level (used for line length calculation if `useTabs` is true). |
-| `flatExpressions` | `false` | `bool` | Prevents expressions from wrapping, ignoring `maxLineWidth`. |
+| `tabWidth` | `4` | `int` | Spaces per indentation level. |
+| `flatExpressions` | `false` | `bool` | Prevents expressions from wrapping. |
 | `multilineStructs` | `true` | `bool` | Expands struct members onto new lines. |
 | `multilineArrays` | `true` | `bool` | Expands array elements onto new lines when >1. |
 | `multilineTernary` | `false` | `bool` | Expands conditional (ternary) expressions onto new lines (ESLint `multiline-ternary`). |

@@ -327,11 +327,7 @@ internal class DocPrinter
 
     private void ProcessGroup(Group group, PrintMode mode, Indent indent)
     {
-        if (!PrinterOptions.LimitWidth)
-        {
-            Push(group.Contents, group.Break ? PrintMode.Break : PrintMode.Flat, indent);
-        }
-        else if (mode is PrintMode.Flat or PrintMode.ForceFlat && !ShouldRemeasure)
+        if (mode is PrintMode.Flat or PrintMode.ForceFlat && !ShouldRemeasure)
         {
             Push(group.Contents, group.Break ? PrintMode.Break : mode, indent);
         }
@@ -340,7 +336,7 @@ internal class DocPrinter
             ShouldRemeasure = false;
             var possibleCommand = new PrintCommand(indent, PrintMode.Flat, group.Contents);
 
-            if (!group.Break && Fits(possibleCommand))
+            if (!group.Break)
             {
                 RemainingCommands.Push(possibleCommand);
             }
@@ -356,10 +352,6 @@ internal class DocPrinter
                     foreach (var option in conditionalGroup.Options.Skip(1))
                     {
                         possibleCommand = new PrintCommand(indent, mode, option);
-                        if (!Fits(possibleCommand))
-                        {
-                            continue;
-                        }
 
                         RemainingCommands.Push(possibleCommand);
                         foundSomethingThatFits = true;
@@ -393,36 +385,21 @@ internal class DocPrinter
 
         var content = fill.Contents[0];
         var contentFlatCmd = new PrintCommand(indent, PrintMode.Flat, content);
-        var contentBreakCmd = new PrintCommand(indent, PrintMode.Break, content);
-        bool contentFits = Fits(contentFlatCmd);
 
         if (fill.Contents.Count == 1)
         {
-            if (contentFits)
-            {
-                RemainingCommands.Push(contentFlatCmd);
-            }
-            else
-            {
-                RemainingCommands.Push(contentBreakCmd);
-            }
+
+            RemainingCommands.Push(contentFlatCmd);
+
             return;
         }
 
         var whitespace = fill.Contents[1];
         var whitespaceFlatCmd = new PrintCommand(indent, PrintMode.Flat, whitespace);
-        var whitespaceBreakCmd = new PrintCommand(indent, PrintMode.Break, whitespace);
 
         if (fill.Contents.Count == 2)
         {
-            if (contentFits)
-            {
-                RemainingCommands.Push(whitespaceFlatCmd);
-            }
-            else
-            {
-                RemainingCommands.Push(whitespaceBreakCmd);
-            }
+            RemainingCommands.Push(whitespaceFlatCmd);
             RemainingCommands.Push(contentFlatCmd);
             return;
         }
@@ -431,49 +408,11 @@ internal class DocPrinter
         fill.Contents.RemoveAt(0);
 
         var remainingCmd = new PrintCommand(indent, mode, Doc.Fill(fill.Contents));
-        var secondContent = fill.Contents[0];
 
-        var firstAndSecondContentFlatCmd = new PrintCommand(
-            indent,
-            PrintMode.Flat,
-            Doc.Concat(new[] { content, whitespace, secondContent })
-        );
-        var firstAndSecondContentFits = Fits(firstAndSecondContentFlatCmd);
+        RemainingCommands.Push(remainingCmd);
+        RemainingCommands.Push(whitespaceFlatCmd);
+        RemainingCommands.Push(contentFlatCmd);
 
-        if (firstAndSecondContentFits)
-        {
-            RemainingCommands.Push(remainingCmd);
-            RemainingCommands.Push(whitespaceFlatCmd);
-            RemainingCommands.Push(contentFlatCmd);
-        }
-        else if (contentFits)
-        {
-            RemainingCommands.Push(remainingCmd);
-            RemainingCommands.Push(whitespaceBreakCmd);
-            RemainingCommands.Push(contentFlatCmd);
-        }
-        else
-        {
-            RemainingCommands.Push(remainingCmd);
-            RemainingCommands.Push(whitespaceBreakCmd);
-            RemainingCommands.Push(contentBreakCmd);
-        }
-    }
-
-    private bool Fits(PrintCommand possibleCommand)
-    {
-        if (!PrinterOptions.LimitWidth)
-        {
-            return true;
-        }
-
-        return DocFitter.Fits(
-            possibleCommand,
-            RemainingCommands,
-            PrinterOptions.MaxLineWidth - CurrentWidth,
-            GroupModeMap,
-            Indenter
-        );
     }
 
     private void Push(Doc doc, PrintMode printMode, Indent indent)

@@ -68,7 +68,7 @@ Key `Gobo/Gobo.csproj` settings:
 2. **Parsing** — `GmlParser` creates AST (`GmlSyntaxNode` tree).
 3. **Comment Attachment** — `CommentMapper` attaches trivia to AST nodes via binary search.
 4. **Printing** — `PrintNode(PrintContext)` returns **Doc IR** tree.
-5. **Doc Printing** — `DocPrinter` processes Doc IR. Handles `MaxLineWidth`, indentation, and line-breaking.
+5. **Doc Printing** — `DocPrinter` processes Doc IR. Handles indentation, and line-breaking.
 6. **Validation** — Re-parse output. Ensure:
    - Comments printed once.
    - AST hash identical (no semantic changes).
@@ -91,8 +91,6 @@ Key `Gobo/Gobo.csproj` settings:
 |----------|---------|-------------|
 | `UseTabs` | `false` | Indent with tabs vs spaces |
 | `TabWidth` | `4` | Spaces per indent level |
-| `MaxLineWidth` | `90` | Max line length |
-| `LimitWidth` | `false` | Enforce `MaxLineWidth` |
 | `FlatExpressions` | `false` | Prevent expression wrapping |
 | `MultilineStructs` | `true` | Force struct members to new lines |
 | `MultilineArrays` | `true` | Force array elements to new lines |

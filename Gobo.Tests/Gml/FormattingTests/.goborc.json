@@ -1,6 +1,4 @@
 {
-  "limitWidth": false,
-  "useTabs": true,
   "multilineStructs": false,
   "multilineArrays": false
 }

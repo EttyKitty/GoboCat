@@ -8,27 +8,6 @@
 
         <h5 class="text-light">Gobo Playground</h5>
 
-        <div class="form-check pt-2" title="If checked, the line width will be limited.">
-            <input type="checkbox"
-                class="form-check-input"
-                id="limitWidth"
-                @bind="_formatOptions.LimitWidth"
-                @bind:after="RequestUpdate" />
-            <label for="limitWidth" class="text-light form-check-label">Limit Width</label>
-        </div>
-
-        @if (_formatOptions.LimitWidth)
-        {
-            <div class="mb-3" title="Max line width. -1 to disable.">
-                <label for="maxLineWidth" class="form-label text-light">Max Line Width</label>
-                <input type="number"
-                    class="form-control form-control-sm"
-                    id="maxLineWidth"
-                    @bind="_formatOptions.MaxLineWidth"
-                    @bind:after="RequestUpdate" />
-            </div>
-        }
-
         <div class="form-check pt-2" title="If checked, tabs will be used for indentation instead of spaces.">
             <input type="checkbox"
                 class="form-check-input"
@@ -49,6 +28,8 @@
                     @bind:after="RequestUpdate" />
             </div>
         }
+
+        <h6 class="text-light">Multiline</h6>
 
         <div class="form-check" title="If checked, expressions will always be formatted horizontally.">
             <input type="checkbox"
@@ -97,7 +78,7 @@
             </select>
         </div>
 
-        <div class="form-check" title="Forces all function arguments onto new lines, regardless of line width.">
+        <div class="form-check" title="Forces all function arguments onto new lines.">
             <input type="checkbox"
                 class="form-check-input"
                 id="multilineConstructors"
@@ -114,6 +95,8 @@
                 @bind:after="RequestUpdate" />
             <label for="multilineAccessors" class="text-light form-check-label">Multiline Accessors</label>
         </div>
+
+        <h6 class="text-light">Misc</h6>
 
         <div class="form-check" title="Insert a blank line between a block statement and any subsequent statement at the same scope level.">
             <input type="checkbox"
@@ -156,7 +139,7 @@
                         Value="@_input"
                         ValueChanged="@OnInputChanged"
                         Language="game_maker_language"
-                        ShowPrintMargin="@ShowPrintMargin"> </AceEditor>
+                ></AceEditor>
             </div>
             @if (_showAst)
             {
@@ -165,14 +148,14 @@
                             Language="json"
                             TabSize="2"
                             IsReadonly="true"
-                            ShowPrintMargin="@ShowPrintMargin"> </AceEditor>
+                    ></AceEditor>
                 </div>
             }
             <div class="col-xl">
                 <AceEditor @ref="outputEditor"
                         Language="game_maker_language"
                         IsReadonly="true"
-                        ShowPrintMargin="@ShowPrintMargin"> </AceEditor>
+                ></AceEditor>
             </div>
         </div>
     </div>
@@ -193,8 +176,6 @@
 
     private CancellationTokenSource? _cts;
     private bool _isDisposed;
-
-    private bool ShowPrintMargin => _formatOptions.LimitWidth && _formatOptions.MaxLineWidth > 0;
 
     const string _initialText = @"//format this please!
 x = a and b or c  a=0xFG=1 var var var i := 0
@@ -244,7 +225,7 @@ call()";
 
     async Task UpdateEditorMargins()
     {
-        int width = ShowPrintMargin ? _formatOptions.MaxLineWidth : 0;
+        int width = 0;
 
         var tasks = new List<Task>();
         if (inputEditor != null) tasks.Add(inputEditor.SetWidth(width));

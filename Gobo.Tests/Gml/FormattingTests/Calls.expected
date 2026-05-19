@@ -3,19 +3,19 @@ call();
 call(/*comment*/);
 
 call(
-	// surprise! inner comment
+    // surprise! inner comment
 );
 
 call(
-	foo,
-	obj.key,
-	0, // comment
-	ENUM.ANY,
-	true,
-	false, // comment
+    foo,
+    obj.key,
+    0, // comment
+    ENUM.ANY,
+    true,
+    false, // comment
 );
 
 call(
-	foo,
-	false, // comment
+    foo,
+    false, // comment
 );

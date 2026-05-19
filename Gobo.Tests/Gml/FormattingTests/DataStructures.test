@@ -26,3 +26,5 @@ var accessors = [
     data_structure[# grid],
     data_structure[$ "struct"],
 ]
+
+array = [[1, 2, 3],[1, 2, 3],[1, 2, 3]];

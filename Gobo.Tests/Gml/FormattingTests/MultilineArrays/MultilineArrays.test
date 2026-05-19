@@ -17,3 +17,5 @@ var struct = {
         constructor: [[5,2,4]]
     }
 }
+
+array = [[1, 2, 3],[1, 2, 3],[1, 2, 3]];

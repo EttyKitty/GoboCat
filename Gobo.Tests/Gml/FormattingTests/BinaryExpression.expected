@@ -15,13 +15,13 @@ coalesceIsSpecial ??= someValue_________________________ ?? someOtherValue______
 CallSomeLongMethodWithStringConcatenationThatShouldNotBreak(csharpDirectory + ".generated.cs", output.ToString());
 
 var commentsDontBreakBinary =
-	// shouldn't break next line
-	true || false;
+    // shouldn't break next line
+    true || false;
 
 var commentsDontBreakBinary =
-	// shouldn't break next line
-	// shouldn't break next line
-	true || false;
+    // shouldn't break next line
+    // shouldn't break next line
+    true || false;
 
 var conditionalIndentation = someBoolean ? someLongValue____________________________________ + someLongValue____________________________________ : someLongValue____________________________________ + someLongValue____________________________________;
 
@@ -34,7 +34,7 @@ while (one == two || someValue_______________ == thisWillIndent_________________
 switch (one == two || someValue_______________ == thisWillIndent_______________________________________________________________) {}
 
 do {
-	CallSomething();
+    CallSomething();
 } until (one == two || someValue_______________ == thisWillIndent_______________________________________________________________)
 
 CallMethod("shouldIndentToMakeItClearWhereParametersAre" + "someLongString_________________________________", "SecondParameter");

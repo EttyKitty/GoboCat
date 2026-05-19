@@ -1,5 +1,5 @@
 var foo = bar > baz
-	? value1
-	: value2;
+    ? value1
+    : value2;
 
 var stuff = point_and_click(draw_unit_buttons([buttonX, buttonY, buttonX + 105, buttonY + 20], string_truncate(num, 200), [1, 1], ship_all[ship_index] ? #34bc75 : #bf4040, fa_center, fnt_40k_10, ship_all[ship_index] ? 1 : 0.5));

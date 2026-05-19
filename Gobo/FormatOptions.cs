@@ -20,17 +20,17 @@ public record FormatOptions
 {
     public bool UseTabs { get; set; } = false;
     public int TabWidth { get; set; } = 4;
-    public int MaxLineWidth { get; set; } = 90;
+
     public bool FlatExpressions { get; set; } = false;
     public bool MultilineStructs { get; set; } = true;
     public bool MultilineArrays { get; set; } = true;
     public bool MultilineTernary { get; set; } = false;
-    public bool LimitWidth { get; set; } = false;
-    public bool BlankLineAfterBlocks { get; set; } = false;
-    public bool ExplicitUndefined { get; set; } = false;
     public MultilineArgumentsMode MultilineArguments { get; set; } = MultilineArgumentsMode.Never;
     public bool MultilineAccessors { get; set; } = false;
     public bool MultilineConstructors { get; set; } = false;
+
+    public bool BlankLineAfterBlocks { get; set; } = false;
+    public bool ExplicitUndefined { get; set; } = false;
 
     [JsonIgnore]
     public BraceStyle BraceStyle { get; set; } = BraceStyle.SameLine;
