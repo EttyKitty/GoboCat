@@ -1,4 +1,4 @@
-﻿using Gobo.Text;
+using Gobo.Text;
 
 namespace Gobo.Parser;
 
@@ -233,8 +233,9 @@ internal class GmlLexer
                 {
                     return Token(TokenKind.ArrayAccessor);
                 }
-                else if (Match('$'))
+                else if (Peek() == '$' && Peek(2) != '"')
                 {
+                    Advance();
                     return Token(TokenKind.StructAccessor);
                 }
                 return Token(TokenKind.OpenBracket);

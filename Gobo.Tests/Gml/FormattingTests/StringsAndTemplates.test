@@ -3,3 +3,5 @@ str = "\\"
 var escaped_template = $"\{{a+b}\}"
 
 var more_escapes = $"\"{link_list[link_index]}\""
+
+role_list = [$"{_roles[eROLE.LIBRARIAN]} Aspirant", $"{_roles[eROLE.APOTHECARY]} Aspirant", $"{_roles[eROLE.CHAPLAIN]} Aspirant", $"{_roles[eROLE.TECHMARINE]} Aspirant"];
