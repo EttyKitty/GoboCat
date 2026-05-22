@@ -1,4 +1,4 @@
-﻿using Gobo.Printer.DocTypes;
+using Gobo.Printer.DocTypes;
 using Gobo.SyntaxNodes.Gml;
 
 namespace Gobo.SyntaxNodes.PrintHelpers;
@@ -31,12 +31,15 @@ internal class DelimitedList
 
         leadingContents ??= Doc.Null;
 
-        bool isStruct = arguments is StructExpression;
-        bool isArray = arguments is ArrayExpression;
+        var isStruct = arguments is StructExpression;
+        var isArray = arguments is ArrayExpression;
 
-        bool forceVerticalLayout = forceBreak
-            || (isStruct && ctx.Options.MultilineStructs)
-            || (isArray && ctx.Options.MultilineArrays && arguments.Children.Count > 1);
+        var isInitialization = IsInInitializationContext(arguments);
+
+        var forceVerticalLayout = forceBreak
+            || (isInitialization
+                && ((isStruct && ctx.Options.MultilineStructs)
+                    || (isArray && ctx.Options.MultilineArrays && arguments.Children.Count > 1)));
 
         if (arguments.Children.Count > 0)
         {
@@ -135,5 +138,30 @@ internal class DelimitedList
         }
 
         return Doc.Concat(parts);
+    }
+
+    private static bool IsInInitializationContext(GmlSyntaxNode? node)
+    {
+        GmlSyntaxNode? current = node?.Parent;
+        while (current != null)
+        {
+            if (current is VariableDeclarator or AssignmentExpression)
+            {
+                return true;
+            }
+
+            if (current is ConditionalExpression
+                or CallExpression
+                or BinaryExpression
+                or ReturnStatement
+                or SwitchCase)
+            {
+                return false;
+            }
+
+            current = current.Parent;
+        }
+
+        return false;
     }
 }
