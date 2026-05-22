@@ -1,36 +1,19 @@
 if (foo == foo) {
-    obj.call({
-        x1: xx + 35,
-        y1: yy + 50,
-    });
+    obj.call({x1: xx + 35, y1: yy + 50});
     obj.call();
 }
 
 if (foo == foo) {
-    long_object.long_call({
-        x1: xx + 35,
-        y1: yy + 50,
-    });
+    long_object.long_call({x1: xx + 35, y1: yy + 50});
     long_object.long_call();
 }
 
-if (!long_call({
-    key1: 5,
-    key2: 10,
-})) {}
+if (!long_call({key1: 5, key2: 10})) {}
 
 var foo = {
     key1: 5,
 };
 
-long_object.long_object
-    .long_call({
-        x1: xx + 402,
-        y1: yy + 56,
-    });
+long_object.long_object.long_call({x1: xx + 402, y1: yy + 56});
 
-unit_manage_constants.role_name
-    .update({
-        x1: xx + 402,
-        y1: yy + 56,
-    });
+unit_manage_constants.role_name.update({x1: xx + 402, y1: yy + 56});

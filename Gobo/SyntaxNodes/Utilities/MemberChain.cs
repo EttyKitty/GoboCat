@@ -35,22 +35,40 @@ internal static class MemberChain
             return Doc.ForceFlat(printedNodes.Select(x => x.Doc).ToArray());
         }
 
-        var accessorCount = printedNodes.Count(n => n.Node is MemberDotExpression);
-        var forceBreak = ctx.Options.MultilineAccessors && accessorCount > 1;
+        bool isSimpleStatement = InitializationContext.IsInSimpleStatement(node);
+        int callCount = printedNodes.Count(o => o.Node is CallExpression);
+        bool forceBreak = ctx.Options.MultilineChainedMethods && callCount > 1 && isSimpleStatement;
 
-        var groups = printedNodes.Any(o => o.Node is CallExpression)
+        List<List<PrintedNode>> groups = printedNodes.Any(o => o.Node is CallExpression)
             ? GroupPrintedNodesPrettierStyle(printedNodes)
             : GroupPrintedNodesOnLines(printedNodes);
 
-        var oneLine = groups.SelectMany(o => o).Select(o => o.Doc).ToArray();
+        Doc[] oneLine = groups.SelectMany(o => o).Select(o => o.Doc).ToArray();
 
-        var shouldMergeFirstTwoGroups = !forceBreak && ShouldMergeFirstTwoGroups(groups);
+        if (forceBreak)
+        {
+            int firstCallGroupIndex = FindFirstGroupWithCallExpression(groups);
 
-        var cutoff = shouldMergeFirstTwoGroups ? 3 : 2;
+            var firstPart = Doc.Concat(
+                groups
+                    .Take(firstCallGroupIndex + 1)
+                    .SelectMany(g => g)
+                    .Select(p => p.Doc)
+                    .ToArray()
+            );
 
-        var forceOneLine =
-            !forceBreak
-            && groups.Count <= cutoff
+            var remainingGroups = groups.Skip(firstCallGroupIndex + 1).ToList();
+            var restPart = PrintIndentedGroup(node, remainingGroups);
+
+            return Doc.Concat(firstPart, restPart);
+        }
+
+        bool shouldMergeFirstTwoGroups = ShouldMergeFirstTwoGroups(groups);
+
+        int cutoff = shouldMergeFirstTwoGroups ? 3 : 2;
+
+        bool forceOneLine =
+            groups.Count <= cutoff
             && groups
                 .Skip(shouldMergeFirstTwoGroups ? 1 : 0)
                 .Any(o => o.Last().Node is not CallExpression)
@@ -64,7 +82,7 @@ internal static class MemberChain
         if (groups.Count > 1 && groups[0].Last().Node.TrailingComments.Any())
         {
             // Indent trailing comment doc at the end of the first group
-            var contents = ((Concat)groups[0].Last().Doc).Contents;
+            IList<Doc> contents = ((Concat)groups[0].Last().Doc).Contents;
             contents[^1] = Doc.Indent(contents[^1]);
         }
 
@@ -75,11 +93,6 @@ internal static class MemberChain
                 : Doc.Null,
             PrintIndentedGroup(node, groups.Skip(shouldMergeFirstTwoGroups ? 2 : 1).ToList())
         );
-
-        if (forceBreak)
-        {
-            return expanded;
-        }
 
         return oneLine.Skip(1).Any(DocUtilities.ContainsBreak)
             ? expanded
@@ -155,7 +168,7 @@ internal static class MemberChain
         var currentGroup = new List<PrintedNode> { printedNodes[0] };
         groups.Add(currentGroup);
 
-        for (var index = 1; index < printedNodes.Count; index++)
+        for (int index = 1; index < printedNodes.Count; index++)
         {
             if (printedNodes[index].Node is MemberDotExpression or Identifier)
             {
@@ -194,7 +207,7 @@ internal static class MemberChain
 
         var groups = new List<List<PrintedNode>>();
         var currentGroup = new List<PrintedNode> { printedNodes[0] };
-        var index = 1;
+        int index = 1;
         for (; index < printedNodes.Count; index++)
         {
             if (printedNodes[index].Node is CallExpression)
@@ -220,7 +233,7 @@ internal static class MemberChain
         groups.Add(currentGroup);
         currentGroup = new List<PrintedNode>();
 
-        var hasSeenNodeThatRequiresBreak = false;
+        bool hasSeenNodeThatRequiresBreak = false;
         for (; index < printedNodes.Count; index++)
         {
             if (hasSeenNodeThatRequiresBreak && printedNodes[index].Node is MemberDotExpression)
@@ -232,7 +245,7 @@ internal static class MemberChain
 
             if (
                 printedNodes[index].Node
-                is (CallExpression or MemberDotExpression or MemberIndexExpression)
+                is CallExpression or MemberDotExpression or MemberIndexExpression
             )
             {
                 hasSeenNodeThatRequiresBreak = true;
@@ -240,7 +253,7 @@ internal static class MemberChain
             currentGroup.Add(printedNodes[index]);
         }
 
-        if (currentGroup.Any())
+        if (currentGroup.Count != 0)
         {
             groups.Add(currentGroup);
         }
@@ -266,30 +279,6 @@ internal static class MemberChain
         );
     }
 
-    // There are cases where merging the first two groups looks better
-    // Examples:
-    /*
-        // without merging we get this:
-        self
-            .call_method()
-            .call_method();
-
-        x = call_method(
-          first_parameter____________________________,
-          second_parameter___________________________,
-        )
-          .call_method()
-
-        // merging gives us this:
-        self.call_method()
-            .call_method();
-
-        x = call_method(
-          first_parameter____________________________,
-          second_parameter___________________________,
-        ).call_method()
-
-    */
     private static bool ShouldMergeFirstTwoGroups(List<List<PrintedNode>> groups)
     {
         if (groups.Count < 2)
@@ -297,7 +286,7 @@ internal static class MemberChain
             return false;
         }
 
-        var firstNode = groups[0][0].Node;
+        GmlSyntaxNode firstNode = groups[0][0].Node;
 
         if (groups[0].Count == 1 && firstNode is Identifier)
         {
@@ -306,8 +295,8 @@ internal static class MemberChain
 
         if (groups.Count == 2 && groups.All(g => g.Count == 2 && g[1].Node is CallExpression))
         {
-            var firstGroup = groups[0];
-            var lastGroup = groups[1];
+            List<PrintedNode> firstGroup = groups[0];
+            List<PrintedNode> lastGroup = groups[1];
 
             if (
                 firstGroup.Last().Node.TrailingComments.Any()
@@ -324,5 +313,17 @@ internal static class MemberChain
         }
 
         return false;
+    }
+
+    private static int FindFirstGroupWithCallExpression(List<List<PrintedNode>> groups)
+    {
+        for (int i = 0; i < groups.Count; i++)
+        {
+            if (groups[i].Any(p => p.Node is CallExpression))
+            {
+                return i;
+            }
+        }
+        return 0;
     }
 }

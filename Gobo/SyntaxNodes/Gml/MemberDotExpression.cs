@@ -15,10 +15,7 @@ internal sealed class MemberDotExpression : GmlSyntaxNode, IMemberChainable
         Property = AsChild(property);
     }
 
-    public override Doc PrintNode(PrintContext ctx)
-    {
-        return MemberChain.PrintMemberChain(ctx, this);
-    }
+    public override Doc PrintNode(PrintContext ctx) => MemberChain.PrintMemberChain(ctx, this);
 
     public Doc PrintInChain(PrintContext ctx)
     {
@@ -32,8 +29,5 @@ internal sealed class MemberDotExpression : GmlSyntaxNode, IMemberChainable
         );
     }
 
-    public void SetObject(GmlSyntaxNode node)
-    {
-        Object = AsChild(node);
-    }
+    public void SetObject(GmlSyntaxNode node) => Object = AsChild(node);
 }

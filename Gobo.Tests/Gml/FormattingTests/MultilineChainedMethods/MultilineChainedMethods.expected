@@ -1,0 +1,35 @@
+foo = a.b.c;
+
+foo = a.b;
+
+foo = a.b.c.d;
+
+foo = a.b()
+    .c()
+    .d();
+
+foo = a.b.c.d.e.f;
+
+foo = some_long_variable.do_something()
+    .do_something_else();
+
+var x = a.b.c;
+
+var x = a.b;
+
+var x = a.b()
+    .c()
+    .d();
+
+var x = array[a].b.c;
+
+foo = self.method(a.b.c, d.e.f);
+
+foo = a.b;
+
+return a.b()
+    .c()
+    .d();
+
+var x = a.b.c.d()
+    .e();

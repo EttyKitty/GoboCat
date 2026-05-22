@@ -26,7 +26,7 @@ public record FormatOptions
     public bool MultilineArrays { get; set; } = true;
     public bool MultilineTernary { get; set; } = false;
     public MultilineArgumentsMode MultilineArguments { get; set; } = MultilineArgumentsMode.Never;
-    public bool MultilineAccessors { get; set; } = false;
+    public bool MultilineChainedMethods { get; set; } = false;
     public bool MultilineConstructors { get; set; } = false;
 
     public bool BlankLineAfterBlocks { get; set; } = false;

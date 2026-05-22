@@ -34,10 +34,10 @@ internal class DelimitedList
         var isStruct = arguments is StructExpression;
         var isArray = arguments is ArrayExpression;
 
-        var isInitialization = IsInInitializationContext(arguments);
+        var isSimpleStatement = InitializationContext.IsInSimpleStatement(arguments);
 
         var forceVerticalLayout = forceBreak
-            || (isInitialization
+            || (isSimpleStatement
                 && ((isStruct && ctx.Options.MultilineStructs)
                     || (isArray && ctx.Options.MultilineArrays && arguments.Children.Count > 1)));
 
@@ -138,30 +138,5 @@ internal class DelimitedList
         }
 
         return Doc.Concat(parts);
-    }
-
-    private static bool IsInInitializationContext(GmlSyntaxNode? node)
-    {
-        GmlSyntaxNode? current = node?.Parent;
-        while (current != null)
-        {
-            if (current is VariableDeclarator or AssignmentExpression)
-            {
-                return true;
-            }
-
-            if (current is ConditionalExpression
-                or CallExpression
-                or BinaryExpression
-                or ReturnStatement
-                or SwitchCase)
-            {
-                return false;
-            }
-
-            current = current.Parent;
-        }
-
-        return false;
     }
 }
