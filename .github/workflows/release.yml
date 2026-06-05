@@ -1,0 +1,85 @@
+name: Create Release
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    uses: ./.github/workflows/build_cli.yml
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Download Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: ./artifacts
+          merge-multiple: true
+
+      - name: Determine Version
+        id: version
+        uses: paulhatch/semantic-version@v6.0.2
+        with:
+          tag_prefix: 'v'
+          major_pattern: ''
+          minor_pattern: '^(?=[^:]*?(?:feat|!|breaking))[^:]+:.*$'
+          version_format: '${major}.${minor}.${patch}'
+          bump_each_commit: false
+          enable_prerelease_mode: false
+          search_commit_body: true
+
+      - name: Build Changelog
+        id: build_changelog
+        uses: mikepenz/release-changelog-builder-action@v6.2.1
+        with:
+          fromTag: v${{ steps.version.outputs.previous_version }}
+          toTag: v${{ steps.version.outputs.version }}
+          configurationJson: |
+            {
+              "template": "#{{CHANGELOG}}\n\n**Changed Lines:** #{{CHANGES}}\n**Full Changelog:** #{{RELEASE_DIFF}}",
+              "commit_template": "- [#{{TITLE}}](https://github.com/EttyKitty/GoboCat/commit/#{{MERGE_SHA}}) by @#{{AUTHOR}}",
+              "sort": {
+                "order": "ASC",
+                "on_property": "mergedAt"
+              },
+              "categories": [
+                {
+                    "title": "### Features",
+                    "labels": ["feat", "breaking"]
+                },
+                {
+                    "title": "### Fixes",
+                    "labels": ["fix"]
+                },
+                {
+                    "title": "### Other",
+                    "labels": []
+                }
+              ],
+              "label_extractor": [
+                {
+                  "pattern": "^(breaking|build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test|merge){1}(\\([\\w\\-\\.]+\\))?(!)?: ([\\w ])+([\\s\\S]*)",
+                  "on_property": "title",
+                  "target": "$1"
+                }
+              ]
+            }
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v3
+        with:
+          tag_name: v${{ steps.version.outputs.version }}
+          body: ${{ steps.build_changelog.outputs.changelog }}
+          files: ./artifacts/*.zip
