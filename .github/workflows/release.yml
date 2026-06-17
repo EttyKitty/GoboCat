@@ -32,7 +32,7 @@ jobs:
         with:
           tag_prefix: 'v'
           major_pattern: ''
-          minor_pattern: '^(?=[^:]*?(?:feat|!|breaking))[^:]+:.*$'
+          minor_pattern: '/^(?=[^:]*?(?:feat|!|breaking))[^:]+:.*$/'
           version_format: '${major}.${minor}.${patch}'
           bump_each_commit: false
           enable_prerelease_mode: false
@@ -45,6 +45,7 @@ jobs:
         with:
           fromTag: v${{ steps.version.outputs.previous_version }}
           toTag: ${{ github.sha }}
+          mode: "COMMIT"
           configurationJson: |
             {
               "template": "#{{CHANGELOG}}\n\n**Changed Lines:** #{{CHANGES}}\n**Full Changelog:** #{{RELEASE_DIFF}}",
