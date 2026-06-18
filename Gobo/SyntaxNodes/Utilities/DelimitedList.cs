@@ -39,7 +39,8 @@ internal class DelimitedList
         var forceVerticalLayout = forceBreak
             || (isStruct
                 && (ctx.Options.MultilineStructs == MultilineMode.Always
-                    || (ctx.Options.MultilineStructs == MultilineMode.Smart && isSimpleStatement)))
+                    || (ctx.Options.MultilineStructs == MultilineMode.Smart && isSimpleStatement)
+                    || (arguments.Parent is NewExpression)))
             || (isArray
                 && (ctx.Options.MultilineArrays == MultilineMode.Always
                     || (ctx.Options.MultilineArrays == MultilineMode.Smart && isSimpleStatement && arguments.Children.Count > 1)));
