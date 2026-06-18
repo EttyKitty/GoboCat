@@ -1,4 +1,4 @@
 {
-  "multilineArrays": false,
-  "multilineStructs": true
+  "multilineArrays": 0,
+  "multilineStructs": 1
 }

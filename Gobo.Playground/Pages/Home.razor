@@ -40,22 +40,26 @@
             <label for="flatExpressions" class="text-light form-check-label">Flat Expressions</label>
         </div>
 
-        <div class="form-check" title="If checked, structs will always be formatted vertically.">
-            <input type="checkbox"
-                class="form-check-input"
-                id="multilineStructs"
+        <div class="mb-3" title="Controls how structs are formatted.">
+            <label for="multilineStructs" class="form-label text-light">Multiline Structs</label>
+            <select
                 @bind="_formatOptions.MultilineStructs"
-                @bind:after="RequestUpdate" />
-            <label for="multilineStructs" class="text-light form-check-label">Multiline Structs</label>
+                @bind:after="RequestUpdate">
+                <option value="@MultilineMode.Never">Never</option>
+                <option value="@MultilineMode.Always">Always</option>
+                <option value="@MultilineMode.Smart">Smart</option>
+            </select>
         </div>
 
-        <div class="form-check" title="If checked, arrays will always be formatted vertically.">
-            <input type="checkbox"
-                class="form-check-input"
-                id="multilineArrays"
+        <div class="mb-3" title="Controls how arrays are formatted.">
+            <label for="multilineArrays" class="form-label text-light">Multiline Arrays</label>
+            <select
                 @bind="_formatOptions.MultilineArrays"
-                @bind:after="RequestUpdate" />
-            <label for="multilineArrays" class="text-light form-check-label">Multiline Arrays</label>
+                @bind:after="RequestUpdate">
+                <option value="@MultilineMode.Never">Never</option>
+                <option value="@MultilineMode.Always">Always</option>
+                <option value="@MultilineMode.Smart">Smart</option>
+            </select>
         </div>
 
         <div class="form-check" title="If checked, enforces newlines between the operands of a ternary expression.">

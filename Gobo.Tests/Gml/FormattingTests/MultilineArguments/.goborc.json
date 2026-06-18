@@ -1,6 +1,6 @@
 {
-  "multilineStructs": false,
-  "multilineArrays": false,
+  "multilineStructs": 0,
+  "multilineArrays": 0,
   "multilineArguments": 1,
   "multilineConstructors": true
 }

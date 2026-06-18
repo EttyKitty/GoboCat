@@ -37,9 +37,12 @@ internal class DelimitedList
         var isSimpleStatement = InitializationContext.IsInSimpleStatement(arguments);
 
         var forceVerticalLayout = forceBreak
-            || (isSimpleStatement
-                && ((isStruct && ctx.Options.MultilineStructs)
-                    || (isArray && ctx.Options.MultilineArrays && arguments.Children.Count > 1)));
+            || (isStruct
+                && (ctx.Options.MultilineStructs == MultilineMode.Always
+                    || (ctx.Options.MultilineStructs == MultilineMode.Smart && isSimpleStatement)))
+            || (isArray
+                && (ctx.Options.MultilineArrays == MultilineMode.Always
+                    || (ctx.Options.MultilineArrays == MultilineMode.Smart && isSimpleStatement && arguments.Children.Count > 1)));
 
         if (arguments.Children.Count > 0)
         {

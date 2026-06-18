@@ -16,14 +16,21 @@ public enum MultilineArgumentsMode
     Smart = 2,
 }
 
+public enum MultilineMode
+{
+    Never = 0,
+    Always = 1,
+    Smart = 2,
+}
+
 public record FormatOptions
 {
     public bool UseTabs { get; set; } = false;
     public int TabWidth { get; set; } = 4;
 
     public bool FlatExpressions { get; set; } = false;
-    public bool MultilineStructs { get; set; } = true;
-    public bool MultilineArrays { get; set; } = true;
+    public MultilineMode MultilineStructs { get; set; } = MultilineMode.Smart;
+    public MultilineMode MultilineArrays { get; set; } = MultilineMode.Smart;
     public bool MultilineTernary { get; set; } = false;
     public MultilineArgumentsMode MultilineArguments { get; set; } = MultilineArgumentsMode.Never;
     public bool MultilineChainedMethods { get; set; } = false;

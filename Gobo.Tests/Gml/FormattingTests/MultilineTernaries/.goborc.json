@@ -1,5 +1,5 @@
 {
-  "multilineStructs": false,
-  "multilineArrays": false,
+  "multilineStructs": 0,
+  "multilineArrays": 0,
   "multilineTernary": true
 }
