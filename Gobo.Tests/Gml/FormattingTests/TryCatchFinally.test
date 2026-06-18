@@ -1,0 +1,17 @@
+try {
+    // comment in try block
+    add_draw_return_values();
+
+    if (instance_number(obj_ncombat)) {
+        exit;
+    }
+
+    // Center of the screen
+    // setup
+    var _x_center = 100;
+    var _y_center = 200;
+} catch (_exception) {
+    ERROR_HANDLER.handle_exception(_exception);
+} finally {
+    pop_draw_return_values();
+}

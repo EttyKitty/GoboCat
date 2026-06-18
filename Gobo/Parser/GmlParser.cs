@@ -884,6 +884,7 @@ internal class GmlParser
 
         if (Accept(TokenKind.Catch))
         {
+            Token catchToken = accepted;
             GmlSyntaxNode identifier = GmlSyntaxNode.Empty;
             if (Accept(TokenKind.OpenParen))
             {
@@ -891,13 +892,14 @@ internal class GmlParser
                 Expect(TokenKind.CloseParen);
             }
             Expect(Statement(out var body));
-            catchProduction = new CatchProduction(GetSpan(start, accepted), identifier, body);
+            catchProduction = new CatchProduction(GetSpan(catchToken, accepted), identifier, body);
         }
 
         if (Accept(TokenKind.Finally))
         {
+            Token finallyToken = accepted;
             Expect(Statement(out var finallyBody));
-            finallyProduction = new FinallyProduction(GetSpan(start, accepted), finallyBody);
+            finallyProduction = new FinallyProduction(GetSpan(finallyToken, accepted), finallyBody);
         }
 
         result = new TryStatement(
