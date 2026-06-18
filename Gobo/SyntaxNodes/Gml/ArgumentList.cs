@@ -42,7 +42,7 @@ internal sealed class ArgumentList : GmlSyntaxNode
             && ((forceBreak
                     && Parent is CallExpression or NewExpression)
                 || (ctx.Options.MultilineConstructors
-                    && Parent is NewExpression)))
+                    && Parent is CallExpression { Parent: NewExpression })))
         {
             result = DelimitedList.PrintInBrackets(ctx, "(", this, ")", ",", allowTrailingSeparator: true, forceBreak: true);
         }
