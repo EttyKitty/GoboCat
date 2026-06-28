@@ -6,6 +6,8 @@
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
+    <AnalysisMode>All</AnalysisMode>
+    <RunAnalyzersDuringBuild >false</RunAnalyzersDuringBuild>
   </PropertyGroup>
 
   <ItemGroup>

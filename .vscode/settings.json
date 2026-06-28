@@ -1,0 +1,4 @@
+{
+    "dotnet.backgroundAnalysis.analyzerDiagnosticsScope": "openFiles",
+    "dotnet.backgroundAnalysis.compilerDiagnosticsScope": "fullSolution"
+}
