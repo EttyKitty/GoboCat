@@ -85,13 +85,13 @@ The following configuration options are available:
 | `useTabs` | `false` | `bool` | Whether to indent with tabs instead of spaces. |
 | `tabWidth` | `4` | `int` | Spaces per indentation level. |
 | `flatExpressions` | `false` | `bool` | Prevents expressions from wrapping. |
-| `multilineStructs` | `true` | `bool` | Expands struct members onto new lines. |
-| `multilineArrays` | `true` | `bool` | Expands array elements onto new lines when >1. |
+| `multilineStructs` | `Smart` | `0 (Never), 1 (Always), 2 (Smart)` | Expands struct members onto new lines. `Smart` expands when members have complex values. **Exception:** structs inside `new` expressions always expand. |
+| `multilineArrays` | `Smart` | `0 (Never), 1 (Always), 2 (Smart)` | Expands array elements onto new lines when >1. `Smart` expands when elements are complex. |
 | `multilineTernary` | `false` | `bool` | Expands conditional (ternary) expressions onto new lines (ESLint `multiline-ternary`). |
 | `multilineArguments` | `0` | `0 (Never), 1 (Always), 2 (Smart)` | `Always` expands function arguments onto new lines when >1. `Smart` checks if one of the arguments is "complex" (not a `var`, `literal`, `accessor`). |
 | `multilineConstructors` | `false` | `bool` | Expands all constructor function arguments onto new lines. |
-| `multilineAccessors` | `false` | `bool` | Expands chained member accessors onto new lines when >1. |
-| `blankLineAfterBlocks` | `true` | `bool` | Injects a blank line after `}` if followed by another statement (IDE2003 style). |
+| `multilineChainedMethods` | `false` | `bool` | Expands chained member accessors onto new lines when >1. |
+| `blankLineAfterBlocks` | `false` | `bool` | Injects a blank line after `}` if followed by another statement (IDE2003 style). |
 | `explicitUndefined` | `false` | `bool` | Replaces empty arguments in function calls with explicit `undefined` keyword. |
 
 ## Important notes
@@ -142,7 +142,7 @@ ADD_SEMICOLONS;
 
 ## How it works
 
-GoboCat is written in C# and compiles to a self-contained binary using Native AOT in .NET 8.
+GoboCat is written in C# and compiles to a self-contained binary using Native AOT in .NET 9.0.
 
 It uses a custom GML parser to generate an Abstract Syntax Tree (AST). This tree is then converted into an intermediate "Doc" format (adapted from [CSharpier](https://github.com/belav/csharpier) and Prettier) to handle line-wrapping logic and comment placement.
 

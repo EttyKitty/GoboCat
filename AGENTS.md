@@ -13,14 +13,14 @@ Gobo.slnx              — Solution file (VS solution workaround)
 Gobo/                  — Core library (gobolib)
   Parser/              — GML lexer, parser, comment mapper
   Printer/             — Doc IR types + DocPrinter (Prettier-style layout engine)
-    DocPrinter/        — DocPrinter, DocFitter, Indent, PropagateBreaks
-    DocTypes/          — All Doc IR node types (Concat, Group, Line, Indent, etc.)
+    DocPrinter/        — DocPrinter, Indent, PropagateBreaks
+    DocTypes/          — All Doc IR node types (Concat, Group, LineDoc, IndentDoc, etc.)
     Utilities/         — String helpers
   SyntaxNodes/         — AST node definitions + base classes
     Gml/               — Specific GML AST node types
+      Literals/        — Literal node types (Integer, Decimal, String, etc.)
     GmlExtensions/     — Extended syntax handling (e.g. type annotations)
     Utilities/         — Helper utilities for nodes (DelimitedList, MemberChain, etc.)
-    Literals/          — Literal node types (Integer, Decimal, String, etc.)
   Text/                — SourceText abstraction + ObjectPool
   ConfigFileHandler.cs — Loads .goborc.json config files
   FormatOptions.cs     — All configurable formatting options
@@ -33,7 +33,9 @@ Gobo.Tests/            — xUnit test suite
   FormattingTests.cs   — Regression tests: .test → .expected file pairs
   SampleTests.cs       — Idempotency tests on large sample files
   SourceTextTests.cs   — Tests for SourceText implementation
-  Gml/                 — Test fixtures (.test / .expected / sample files)
+  Gml/                 — Test fixtures
+    FormattingTests/   — .test / .expected / .actual file pairs
+    Samples/           — Large sample .test files
 Gobo.Benchmarks/       — BenchmarkDotNet benchmarks
 Gobo.Playground/       — Blazor WebAssembly online demo
 ```
@@ -136,7 +138,6 @@ Key `Gobo/Gobo.csproj` settings:
 ### Doc Printer: `DocPrinter` (Gobo/Printer/DocPrinter/DocPrinter.cs)
 
 - Stack-based processing loop.
-- `DocFitter` measures width fit.
 - Tracks printed comments for validation.
 
 ---
@@ -168,10 +169,11 @@ GmlSyntaxNode (Gobo/SyntaxNodes/GmlSyntaxNode.cs)
 - `CallExpression`, `ArgumentList`, `ArrayExpression`, `ArrayIndexExpression`
 - `StructExpression`, `StructProperty`, `MemberDotExpression`, `MemberIndexExpression`
 - `NewExpression`, `ConstructorClause`, `ParenthesizedExpression`, `Identifier`
-- `Parameter`, `ParameterList`, `IncDecStatement`
+- `Parameter`, `ParameterList`, `IncDecStatement`, `UndefinedArgument`
 - `TemplateExpression`, `TemplateLiteral`, `TemplateText`
 
 **Literals:**
+- `Literal` — Base literal node.
 - `IntegerLiteral`, `DecimalLiteral`, `StringLiteral`, `VerbatimStringLiteral`, `UndefinedLiteral`
 
 **Extensions:**
@@ -203,12 +205,12 @@ Comments parsed as **trivia tokens**:
 ### Test Framework: xUnit
 
 **FormattingTests** (`Gobo.Tests/FormattingTests.cs`):
-- Compare `.test` input to `.expected`.
+- Compare `.test` input to `.expected` in `Gml/FormattingTests/`.
 - Verify idempotency (second pass).
 - Write `.actual` on failure.
 
 **SampleTests** (`Gobo.Tests/SampleTests.cs`):
-- Test stability on large files. No `.expected` comparison.
+- Test stability on large files in `Gml/Samples/`. No `.expected` comparison.
 
 **SourceTextTests** (`Gobo.Tests/SourceTextTests.cs`):
 - Test `SourceText` abstraction.
@@ -240,6 +242,7 @@ Comments parsed as **trivia tokens**:
 2. Implement `PrintNode(PrintContext ctx) → Doc`.
 3. Register in `GmlParser`.
 4. Add tests in `Gobo.Tests/Gml/FormattingTests/`.
+5. Update `AGENTS.md` if needed.
 
 ### Adding a new format option
 
@@ -247,13 +250,16 @@ Comments parsed as **trivia tokens**:
 2. Use in `PrintNode()` via `PrintContext`.
 3. Update `DocPrinterOptions` only if affecting engine (width, indent).
 4. Add tests with `.goborc.json`.
-5. Update `README.md`.
+5. Update `README.md` if needed.
+6. Update `AGENTS.md` if needed.
 
 ### Modifying formatting behavior
 
 1. Locate `PrintNode()` in `Gobo/SyntaxNodes/Gml/`.
 2. Modify Doc IR construction.
 3. Run `dotnet test Gobo.Tests`.
+4. Update `README.md` if needed.
+5. Update `AGENTS.md` if needed.
 
 ---
 
