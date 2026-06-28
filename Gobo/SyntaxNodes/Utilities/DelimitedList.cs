@@ -40,7 +40,7 @@ internal class DelimitedList
             || (isStruct
                 && (ctx.Options.MultilineStructs == MultilineMode.Always
                     || (ctx.Options.MultilineStructs == MultilineMode.Smart && isSimpleStatement)
-                    || (arguments.Parent is NewExpression)))
+                    || InitializationContext.IsInNewExpression(arguments)))
             || (isArray
                 && (ctx.Options.MultilineArrays == MultilineMode.Always
                     || (ctx.Options.MultilineArrays == MultilineMode.Smart && isSimpleStatement && arguments.Children.Count > 1)));

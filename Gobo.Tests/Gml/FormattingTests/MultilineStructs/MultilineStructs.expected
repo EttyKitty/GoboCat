@@ -1,19 +1,67 @@
 if (foo == foo) {
-    obj.call({x1: xx + 35, y1: yy + 50});
+    obj.call({
+        key: xx + 35,
+        key: yy + 50,
+    });
     obj.call();
 }
 
 if (foo == foo) {
-    long_object.long_call({x1: xx + 35, y1: yy + 50});
+    long_object.long_call({
+        key: xx + 35,
+        key: yy + 50,
+    });
     long_object.long_call();
 }
 
-if (!long_call({key1: 5, key2: 10})) {}
+if (!long_call({
+    key1: 5,
+    key2: 10,
+})) {}
 
 var foo = {
     key1: 5,
 };
 
-long_object.long_object.long_call({x1: xx + 402, y1: yy + 56});
+long_object.long_object
+    .long_call({
+        key: xx + 402,
+        key: yy + 56,
+    });
 
-unit_manage_constants.role_name.update({x1: xx + 402, y1: yy + 56});
+unit_manage_constants.role_name
+    .update({
+        key: xx + 402,
+        key: yy + 56,
+    });
+
+static method_var = function(
+    arg = "string",
+    arg = false,
+    arg = {
+        key: "string",
+    },
+    arg = true,
+) {};
+
+constructor = new Constructor({
+    key: xx + 5,
+    key: yy + 5,
+});
+
+constructor = new Constructor(
+    {
+        key: xx + 5,
+        key: yy + 5,
+    },
+    5,
+);
+
+constructor = new Constructor(
+    5,
+    {
+        key: xx + 5,
+        key: yy + 5,
+    },
+    5,
+);

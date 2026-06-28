@@ -6,25 +6,32 @@ internal static class InitializationContext
 {
     public static bool IsInSimpleStatement(GmlSyntaxNode? node)
     {
-        GmlSyntaxNode? current = node?.Parent;
-        while (current != null)
+        foreach (GmlSyntaxNode ancestor in AncestorsOf(node))
         {
-            if (current is VariableDeclarator or AssignmentExpression or ReturnStatement)
-            {
-                return true;
-            }
-
-            if (current is ConditionalExpression
-                or CallExpression
-                or BinaryExpression
-                or SwitchCase)
+            if (ancestor is ConditionalExpression or CallExpression or BinaryExpression or SwitchCase or FunctionDeclaration)
             {
                 return false;
             }
 
-            current = current.Parent;
+            if (ancestor is VariableDeclarator or AssignmentExpression or ReturnStatement)
+            {
+                return true;
+            }
         }
 
         return false;
+    }
+
+    public static bool IsInNewExpression(GmlSyntaxNode? node)
+        => AncestorsOf(node).Any(a => a is NewExpression);
+
+    private static IEnumerable<GmlSyntaxNode> AncestorsOf(GmlSyntaxNode? node)
+    {
+        GmlSyntaxNode? current = node?.Parent;
+        while (current != null)
+        {
+            yield return current;
+            current = current.Parent;
+        }
     }
 }
